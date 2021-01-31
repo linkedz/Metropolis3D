@@ -346,9 +346,10 @@
             showerSmall.position.z = -1240 / 2;
             addItem(smallBathOrigin, showerSmall);
 
-            let showerSmallWall = new THREE.Mesh(new THREE.BoxGeometry(20, height, 500), new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true}));
+            let showerSmallWall = new THREE.Mesh(new THREE.BoxGeometry(20, 2000, 600), new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true}));
+            showerSmallWall.position.y = -height / 2 + 1000;
             showerSmallWall.position.x = 900 / 2 + 1250 - 15 - 400;
-            showerSmallWall.position.z = -1240 / 2 + 500 / 2 + 100;
+            showerSmallWall.position.z = -1240 / 2 - 600 / 2;
             addItem(smallBathOrigin, showerSmallWall);
         }
 
