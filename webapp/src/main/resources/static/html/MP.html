@@ -702,6 +702,18 @@
             roomTV2.position.z = -2900;
             roomTV2.position.x = -150 + 3110 + 350;
             addItem(sleepRoom2, roomTV2);
+
+            let cooler2 = new THREE.Mesh(new THREE.BoxGeometry(250, 300, 800), new THREE.MeshStandardMaterial({color: 0x4D75EB, side: THREE.DoubleSide}));
+            cooler2.position.y = -height / 2 + 2300;
+            cooler2.position.z = -2450;
+            cooler2.position.x = -150 + 3110 + 350 - 50;
+            addItem(sleepRoom2, cooler2);
+
+            let cooler1 = new THREE.Mesh(new THREE.BoxGeometry(250, 300, 800), new THREE.MeshStandardMaterial({color: 0x4D75EB, side: THREE.DoubleSide}));
+            cooler1.position.y = -height / 2 + 2300;
+            cooler1.position.z = -1450;
+            cooler1.position.x = -150 + 3110 + 350 + 150;
+            addItem(sleepRoom2, cooler1);
         }
 
         let textureFlor = new THREE.TextureLoader().load('/img/floor.jpg');
