@@ -225,8 +225,8 @@
             bath.position.z = 700 / 2;
             addItem(bathOrigin, bath);
 
-            let washing = new THREE.Mesh(new THREE.BoxGeometry(500, 900, 800), new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide}));
-            washing.position.y = -height / 2 + 900 / 2;
+            let washing = new THREE.Mesh(new THREE.BoxGeometry(500, 200, 800), new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide}));
+            washing.position.y = -height / 2 + 800;
             washing.position.x = 500 / 2 - 1900;
             washing.position.z = 700 + 800 / 2;
             addItem(bathOrigin, washing);
@@ -242,6 +242,12 @@
             mashMachine.position.x = -600 / 2 - 50;
             mashMachine.position.z = 700 + 800 + 450 / 2 + 530;
             addItem(bathOrigin, mashMachine);
+
+            let boilerBig = new THREE.Mesh(new THREE.BoxGeometry(500, 1000, 250), new THREE.MeshStandardMaterial({color: 0xEB2A5E, side: THREE.DoubleSide}));
+            boilerBig.position.y = height / 2 - 1000 / 2 - 100;
+            boilerBig.position.x = -600 / 2 - 50;
+            boilerBig.position.z = 700 + 800 + 250 / 2 + 750;
+            addItem(bathOrigin, boilerBig);
         }
 
         let wallRoom6 = new THREE.Mesh(new THREE.BoxGeometry(100, height, 770), wallMat);
@@ -412,6 +418,12 @@
             toiletSmall.position.x = (800 / 2) * Math.sin(Math.PI / 4);
             toiletSmall.position.z = -(800 / 2) * Math.cos(Math.PI / 4);
             addItem(smallBathOrigin, toiletSmall);
+
+            let boilerSmall = new THREE.Mesh(new THREE.BoxGeometry(300, 1200, 350), new THREE.MeshStandardMaterial({color: 0xEB2A5E, side: THREE.DoubleSide}));
+            boilerSmall.position.y = height / 2 - 1200 / 2 - 100;
+            boilerSmall.position.x = -100;
+            boilerSmall.position.z = -1020;
+            addItem(smallBathOrigin, boilerSmall);
 
             let showerSmall = new THREE.Mesh(new THREE.BoxGeometry(900, 50, 1240), new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide}));
             showerSmall.position.y = -height / 2 + 25;
