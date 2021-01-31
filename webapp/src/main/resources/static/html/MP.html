@@ -249,10 +249,20 @@
         wallRoom9.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 100) / 2;
         addItem(origin, wallRoom9);
 
-        let wallRoom10 = new THREE.Mesh(new THREE.BoxGeometry(300, height, 2180 + 120 + 5456), wallMat);
-        wallRoom10.position.x = 280 - 105 - 100 - 904 - 400 - 1900 - 300 / 2;
-        wallRoom10.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 100) / 2 - (2180 + 120 + 5456) / 2 + 2180;
-        addItem(origin, wallRoom10);
+        let wallSleepRoomBig = new THREE.Mesh(new THREE.BoxGeometry(300, height, 2180 + 120 + 5456), wallMat);
+        wallSleepRoomBig.position.x = 280 - 105 - 100 - 904 - 400 - 1900 - 300 / 2;
+        wallSleepRoomBig.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 100) / 2 - (2180 + 120 + 5456) / 2 + 2180;
+        addItem(origin, wallSleepRoomBig);
+
+        let wallSleepRoomNearWindow = new THREE.Mesh(new THREE.BoxGeometry(955, height, 300), wallMat);
+        wallSleepRoomNearWindow.position.x = 280 - 105 - 100 - 904 - 400 - 1900 + 955 / 2 - 300;
+        wallSleepRoomNearWindow.position.z = -360 - 300 - 914 - 3031 - (250 + 1267) - 50 / 2 - 150 + 150;
+        addItem(origin, wallSleepRoomNearWindow);
+
+        let wallSleepRoomNearWindow2 = new THREE.Mesh(new THREE.BoxGeometry(265 + 185 + 100 + 200 + 250, height, 300), wallMat);
+        wallSleepRoomNearWindow2.position.x = 280 - 105 - 100 - 904 - 400 - 1900 + 945 + (265 + 185 + 100 + 200 + 250) / 2 - 300 + 2181;
+        wallSleepRoomNearWindow2.position.z = -360 - 300 - 914 - 3031 - (250 + 1267) - 50 / 2 - 150 + 300;
+        addItem(origin, wallSleepRoomNearWindow2);
 
         let wallRoom11 = new THREE.Mesh(new THREE.BoxGeometry(807 + 300, height, 410), wallMat);
         wallRoom11.position.x = 280 - 105 - 100 - 904 - 400 - 1900 - 300 + 807 / 2 + 300 - 300 / 2;
@@ -269,10 +279,15 @@
         wallCenter5.position.z = -360 - 300 - 914 - 3031 - (250 + 1267 + 50) / 2;
         addItem(origin, wallCenter5);
 
-        let wallCenter6 = new THREE.Mesh(new THREE.BoxGeometry(1957 + 250 + 1460 + 3610 + 400, height, 50), windowMat);
-        wallCenter6.position.x = 280 - 100 + 260 + (1957 + 250 + 1460 + 3110) / 2 - 3610 + 400;
-        wallCenter6.position.z = -360 - 300 - 914 - 3031 - (250 + 1267) - 50 / 2;
-        addItem(origin, wallCenter6);
+        let wallWindowSleep1A = new THREE.Mesh(new THREE.BoxGeometry(2181, height, 50), windowMat);
+        wallWindowSleep1A.position.x = 280 - 105 - 100 - 904 - 400 - 1900 + 955 / 2 - 300 + 3110 / 2;
+        wallWindowSleep1A.position.z = -360 - 300 - 914 - 3031 - (250 + 1267) - 50 / 2;
+        addItem(origin, wallWindowSleep1A);
+
+        let wallWindowSleep2b = new THREE.Mesh(new THREE.BoxGeometry(1957 + 1500, height, 50), windowMat);
+        wallWindowSleep2b.position.x = 280 - 100 + 260 + (1957 + 150 + 3060) - 3610 + 400;
+        wallWindowSleep2b.position.z = -360 - 300 - 914 - 3031 - (250 + 1267) - 50 / 2;
+        addItem(origin, wallWindowSleep2b);
 
         let wallCenter7 = new THREE.Mesh(new THREE.BoxGeometry(740, height, 350), wallMat);
         wallCenter7.position.x = 280 - 100 + 260 + (1957 + 250 + 1460) + 740 / 2;
@@ -353,10 +368,10 @@
             addItem(smallBathOrigin, showerSmallWall);
         }
 
-        let wallShoerMoveable = new THREE.Mesh(new THREE.BoxGeometry(120, height, 1343), wallMat);
-        wallShoerMoveable.position.x = 100 - 645 - 120 / 2 + 645;
-        wallShoerMoveable.position.z = wallWentWidth + 1545 + 913 + 85 + 1343 / 2;
-        addItem(origin, wallShoerMoveable);
+        let wallShowerMoveable = new THREE.Mesh(new THREE.BoxGeometry(120, height, 1343), wallMat);
+        wallShowerMoveable.position.x = 100 - 645 - 120 / 2 + 645;
+        wallShowerMoveable.position.z = wallWentWidth + 1545 + 913 + 85 + 1343 / 2;
+        addItem(origin, wallShowerMoveable);
 
         let rightLength = 2761 + 120 + 1404 + 440 + 120 + 2082 + 150;
         let wallRight = new THREE.Mesh(new THREE.BoxGeometry(rightLength, height, 300), wallMat);
@@ -397,10 +412,10 @@
         wallWindow5.position.z = -300 / 2;
         addItem(wallWindow1Origin, wallWindow5);
 
-        let wallWindow6 = new THREE.Mesh(new THREE.BoxGeometry(2858, height, 50), windowMat);
-        wallWindow6.position.x = -685 - 2871 - 525 - (390 + 120 + 483) - 920 - 2858 / 2;
-        wallWindow6.position.z = -255 - 50 / 2;
-        addItem(wallWindow1Origin, wallWindow6);
+        let windowSleep1 = new THREE.Mesh(new THREE.BoxGeometry(2858, height, 50), windowMat);
+        windowSleep1.position.x = -685 - 2871 - 525 - (390 + 120 + 483) - 920 - 2858 / 2;
+        windowSleep1.position.z = -255 - 50 / 2;
+        addItem(wallWindow1Origin, windowSleep1);
 
         let wallWindow7 = new THREE.Mesh(new THREE.BoxGeometry(2040, height, 300), wallMat);
         wallWindow7.position.x = -685 - 2871 - 525 - (390 + 120 + 483) - 920 - 2858 - 2040 / 2;
@@ -550,6 +565,62 @@
                     addItem(tableKitchen2, chair3);
                 }
             }
+        }
+        {
+            // let sleepRoom1 = new THREE.Mesh(new THREE.BoxGeometry(10, height * 2, 10), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+            let sleepRoom1 = new THREE.Object3D();
+            sleepRoom1.position.x = 280;
+            addItem(origin, sleepRoom1);
+
+            let storage = new THREE.Mesh(new THREE.BoxGeometry(3310, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+            storage.position.x = 3310 / 2;
+            storage.position.z = -600 / 2;
+            addItem(sleepRoom1, storage);
+        }
+        {
+            // let sleepRoom2 = new THREE.Mesh(new THREE.BoxGeometry(10, height * 2, 10), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+            let sleepRoom2 = new THREE.Object3D();
+            sleepRoom2.position.x = 280 - 105 - 100 - 904 - 400 - 1900;
+            sleepRoom2.position.z = -360 - 300 - 914 - 100 - 100 + 1250 - 50 - 100;
+            addItem(origin, sleepRoom2);
+
+            let storage = new THREE.Mesh(new THREE.BoxGeometry(1900, height, 1100), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+            storage.position.x = 1900 / 2;
+            storage.position.z = -1100 / 2;
+            addItem(sleepRoom2, storage);
+
+            let storageDoorOrigin = new THREE.Object3D();
+            let storageDoor = new THREE.Mesh(new THREE.BoxGeometry(600, height, 20), new THREE.MeshStandardMaterial({color: 0xebc034, side: THREE.DoubleSide}));
+            storageDoorOrigin.rotation.y = Math.PI / 180 * -280;
+            storageDoor.position.x = 600 / 2;
+            // storageDoor.position.x = -1000;
+            storageDoorOrigin.position.z = -1100;
+            storageDoorOrigin.position.x = 0;
+            addItem(sleepRoom2, storageDoorOrigin);
+            addItem(storageDoorOrigin, storageDoor);
+
+            let bed = new THREE.Mesh(new THREE.BoxGeometry(2000, 400, 1650), new THREE.MeshStandardMaterial({color: 0xEBEB34, side: THREE.DoubleSide}));
+            bed.position.y = -height / 2 + 400 / 2;
+            bed.position.x = 2000 / 2;
+            bed.position.z = -3000;
+            addItem(sleepRoom2, bed);
+
+            let bedTop = new THREE.Mesh(new THREE.BoxGeometry(100, 800, 2200), new THREE.MeshStandardMaterial({color: 0xEBEB34, side: THREE.DoubleSide}));
+            bedTop.position.y = 200;
+            bedTop.position.x = -1000;
+            addItem(bed, bedTop);
+
+            let table1 = new THREE.Mesh(new THREE.BoxGeometry(700, 800, 1100), new THREE.MeshStandardMaterial({color: 0xA18132, side: THREE.DoubleSide}));
+            table1.position.y = -height / 2 + 400;
+            table1.position.z = -4760;
+            table1.position.x = 700 / 2;
+            addItem(sleepRoom2, table1);
+
+            let table2 = new THREE.Mesh(new THREE.BoxGeometry(700, 800, 1100), new THREE.MeshStandardMaterial({color: 0xA18132, side: THREE.DoubleSide}));
+            table2.position.y = -height / 2 + 400;
+            table2.position.z = -4760 + 140;
+            table2.position.x = -150 + 3110;
+            addItem(sleepRoom2, table2);
         }
 
         let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(58000, 58000, 10, 10), new THREE.MeshStandardMaterial({map: null, side: THREE.DoubleSide, wireframe: wireframe}));
