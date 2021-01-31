@@ -1,0 +1,883 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>three.js webgl - materials</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <link type="text/css" rel="stylesheet" href="https://threejs.org/examples/main.css">
+</head>
+<body>
+
+<script type="module">
+
+    import * as THREE from 'http://localhost:8080/js/three.module.js';
+    import {OrbitControls} from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
+    import {ConvexBufferGeometry} from 'https://threejs.org/examples/jsm/geometries/ConvexGeometry.js';
+    // import {Vector3} from "../js/three.module";
+    // import { RectAreaLightUniformsLib } from 'https://threejs.org/examples/jsm/lights/RectAreaLightUniformsLib.js';
+    // import {Vector3} from "../js/three.module";
+
+    var container, stats;
+
+    var camera, scene, renderer, room;
+    var leftOffset = 235;
+    var rightOffset = 240;
+    var facadeOffset = 2;
+    var socle = 100;
+    var planeWidth = 18;
+    var facadeWidth = 18.5;
+    var dwpWidth = 4;
+    var roomAngle = Math.PI / 180 * 136.8;
+    // roomAngle = Math.PI / 180 * 135;
+
+    var wireframe = false;
+    var transparent = false;
+    var opacity = 0.5;
+    var visibility = {
+        "kargo":        1,
+        "fridge":       1,
+        "owen":         1,
+        "washBasin":    1,
+        "washMashine":  1,
+        "socle":        1,
+        "topPlane1":    1,
+        "topPlane2":    1,
+        "topConner":    1,
+        "topLeft":      1,
+        "topRight":     1,
+        "walls":        1,
+        "floor":        1,
+        "cooker":       1,
+        "balconyBox":   1
+    };
+
+
+
+    var textureCubanit = new THREE.TextureLoader().load('http://localhost:8080/img/Cubanit.jpg');
+    var textureTop = new THREE.TextureLoader().load('http://localhost:8080/img/top.jpg');
+    var textureFacade = new THREE.TextureLoader().load('http://localhost:8080/img/saviola.jpg');
+    var cleafFacade = new THREE.TextureLoader().load('http://localhost:8080/img/cleaf.jpg');
+    var textureWood1Facade = new THREE.TextureLoader().load('http://localhost:8080/img/wood1.jpg');
+    var textureWood2Facade = new THREE.TextureLoader().load('http://localhost:8080/img/wood2.jpg');
+    textureTop.wrapS = textureTop.wrapT = THREE.RepeatWrapping;
+    textureTop.repeat.set(2, 5);
+    // cleafFacade.wrapS = textureTop.wrapT = THREE.RepeatWrapping;
+    // cleafFacade.repeat.set(1, 3);
+    // var facadeMaterial = new THREE.MeshStandardMaterial({map: textureFacade, roughness: 1, wireframe: wireframe});
+    var facadeMaterial = new THREE.MeshStandardMaterial({wireframe: wireframe, opacity: opacity, transparent: transparent, map: cleafFacade});
+    // var facadeMaterial = new THREE.MeshStandardMaterial({map: cleafFacade});
+    var facadeWood1Material = new THREE.MeshStandardMaterial({map: textureWood2Facade, roughness: 1, wireframe: wireframe, opacity: opacity, transparent: transparent});
+    var facadeWood2Material = new THREE.MeshStandardMaterial({map: textureWood1Facade, roughness: 1, wireframe: wireframe, opacity: opacity, transparent: transparent});
+    var facadeCubanitMaterial = new THREE.MeshStandardMaterial({map: textureCubanit, roughness: 1, wireframe: wireframe, opacity: opacity, transparent: transparent});
+    var owenMat = new THREE.MeshStandardMaterial({wireframe: wireframe, opacity: opacity, transparent: transparent, map: textureCubanit});
+    var socleMaterial = new THREE.MeshStandardMaterial({color: 0x666666, roughness: 1, wireframe: false, opacity: opacity, transparent: transparent});
+    // var topMaterial = new THREE.MeshStandardMaterial({map: textureTop, wireframe: wireframe});
+    var topMaterial = new THREE.MeshStandardMaterial({wireframe: wireframe, opacity: opacity, transparent: transparent, /*map: textureTop*/color: 0xFFFFFF});
+    // facadeMaterial = new THREE.MeshBasicMaterial({color: 0x777777, wireframe: true});
+
+    var objects = [];
+    var controls;
+    var spotLight, lightHelper, shadowCameraHelper;
+
+    init();
+    animate();
+
+    function init() {
+
+        container = document.createElement('div');
+        document.body.appendChild(container);
+
+        camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 10, 20000);
+        // var width = 2000;
+        // var height = 1000;
+        // camera = new THREE.OrthographicCamera(width / - 2, width / 2, height / 2, height / - 2, 1, 100000 );
+        camera.position.set(0, 4000, 10000);
+
+        scene = new THREE.Scene();
+        room = new THREE.Object3D();
+
+        createBoxes();
+        createRoom();
+
+        // Lights
+        // var ambient = new THREE.AmbientLight( 0xffffff, 0.8 );
+        // scene.add( ambient );
+
+        let sphereLight = new THREE.HemisphereLight(0xffffbb, 0xaaaabb, 1.7);
+        scene.add(sphereLight);
+
+        // var light1 = new THREE.DirectionalLight(0xffffff, 0.9);
+        // light1.position.set(100, 100, 100);
+        // light1.castShadow = true;
+        // scene.add(light1);
+
+        spotLight = new THREE.SpotLight( 0xffffff, 3 );
+        spotLight.position.set( 1000, 2600, 2000 );
+        spotLight.angle = Math.PI / 4;
+        spotLight.penumbra = 0.4;
+        spotLight.decay = 1;
+        spotLight.distance = 4000;
+
+        spotLight.castShadow = true;
+        spotLight.shadow.mapSize.width = 4096;
+        spotLight.shadow.mapSize.height = 4096;
+        spotLight.shadow.camera.near = 400;
+        spotLight.shadow.camera.far = 3000;
+        scene.add( spotLight );
+
+        // lightHelper = new THREE.SpotLightHelper( spotLight );
+        // scene.add( lightHelper );
+        //
+        // shadowCameraHelper = new THREE.CameraHelper( spotLight.shadow.camera );
+        // scene.add( shadowCameraHelper );
+
+        //
+
+        renderer = new THREE.WebGLRenderer({antialias: true});
+        // renderer.setClearColor( 0xFFFFFF, 1 );
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        // renderer.gammaInput = true;
+        // renderer.gammaOutput = true;
+        // renderer.sortObjects = false;
+        container.appendChild(renderer.domElement);
+
+        // RectAreaLightUniformsLib.init();
+
+
+        // stats = new Stats();
+        // container.appendChild(stats.dom);
+
+        //
+
+        window.addEventListener('resize', onWindowResize, false);
+
+        // controls
+        controls = new OrbitControls(camera, renderer.domElement);
+        controls.maxPolarAngle = Math.PI * 0.5;
+        controls.minDistance = 100;
+        controls.maxDistance = 30000;
+    }
+
+    function createBoxes() {
+        let leftSide = new THREE.Group();
+        // let leftPlane = new THREE.Mesh(new THREE.BoxGeometry(18, 2135 - socle, 600), new THREE.MeshPhongMaterial({map: textureCubanit, side: THREE.DoubleSide}));
+        // leftPlane.position.y = (2135 - socle) / 2;
+        // box.add(leftPlane);
+        let leftDepth = 580;
+        let leftDepthOffet = 4;
+        if (visibility["kargo"] === 1) {
+            let depth = leftDepth;
+            let kargoBox = new THREE.Object3D();
+            let kargoWidth = 180;
+            // kargoBox.visible = false;
+            kargoBox.position.y = (2135 - socle) / 2 + socle;
+            kargoBox.position.x = leftOffset + 600 + 600 + kargoWidth / 2;
+            kargoBox.position.z = -depth - leftDepthOffet;
+            addItem(leftSide, kargoBox);
+
+            // let edges = new THREE.EdgesHelper( kargoBox, 0xFF0000);
+            // edges.material.linewidth = 2;
+            //
+            // edges = new THREE.Object3D();
+            // edges.position.copy(kargoBox.position);
+            // leftSide.add(edges);
+
+            {
+                let bottomSide = new THREE.Mesh(new THREE.BoxGeometry(kargoWidth, planeWidth, depth), facadeCubanitMaterial);
+                bottomSide.position.y = -(2135 - socle) / 2 + planeWidth / 2;
+                bottomSide.position.z = depth / 2;
+                addItem(kargoBox, bottomSide);
+
+                let topSide = new THREE.Mesh(new THREE.BoxGeometry(kargoWidth, planeWidth, depth), facadeCubanitMaterial);
+                topSide.position.y = (2135 - socle) / 2 - planeWidth / 2;
+                topSide.position.z = depth / 2;
+                addItem(kargoBox, topSide);
+
+                let sideLeft = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 2135 - socle - planeWidth * 2, depth), facadeCubanitMaterial);
+                sideLeft.position.x = kargoWidth / 2 - planeWidth / 2;
+                sideLeft.position.z = depth / 2;
+                addItem(kargoBox, sideLeft);
+
+                let sideRight = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 2135 - socle - planeWidth * 2, depth), facadeCubanitMaterial);
+                sideRight.position.x = -kargoWidth / 2 + planeWidth / 2;
+                sideRight.position.z = depth / 2;
+                addItem(kargoBox, sideRight);
+
+                let sideBack = new THREE.Mesh(new THREE.BoxGeometry(kargoWidth - planeWidth * 2, 2135 - socle - planeWidth * 2, planeWidth), facadeCubanitMaterial);
+                sideBack.position.z = depth - planeWidth / 2;
+                addItem(kargoBox, sideBack);
+            }
+
+
+            let kargoFacade = new THREE.Mesh(new THREE.BoxGeometry(kargoWidth - facadeOffset * 2, 2135 - facadeOffset * 2 - socle, facadeWidth), facadeMaterial);
+            kargoFacade.position.z = -facadeWidth / 2;
+            addItem(kargoBox, kargoFacade);
+        }
+        if (visibility["fridge"] === 1) {
+            let fridgeBox = new THREE.Object3D();
+            let depth = leftDepth;
+            fridgeBox.position.y = socle;
+            fridgeBox.position.x = leftOffset + 600 + 600 / 2;
+            fridgeBox.position.z = -depth - leftDepthOffet;
+            addItem(leftSide, fridgeBox);
+
+            {
+                let bottomSide = new THREE.Mesh(new THREE.BoxGeometry(600, planeWidth, 520), facadeCubanitMaterial);
+                bottomSide.position.y = planeWidth / 2;
+                bottomSide.position.z = 520 / 2;
+                addItem(fridgeBox, bottomSide);
+
+                let midSide = new THREE.Mesh(new THREE.BoxGeometry(600 - planeWidth * 2, planeWidth, 520), facadeCubanitMaterial);
+                midSide.position.y = 1788 + planeWidth * 3 / 2;
+                midSide.position.z = 520 / 2;
+                addItem(fridgeBox, midSide);
+
+                let topSide = new THREE.Mesh(new THREE.BoxGeometry(600, planeWidth, 520), facadeCubanitMaterial);
+                topSide.position.y = 2035 - planeWidth / 2;
+                topSide.position.z = 520 / 2;
+                addItem(fridgeBox, topSide);
+
+                let sideLeft = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 2035 - planeWidth * 2, 580), facadeCubanitMaterial);
+                sideLeft.position.y = 2035 / 2;
+                sideLeft.position.x = 600 / 2 - planeWidth / 2;
+                sideLeft.position.z = 580 / 2;
+                addItem(fridgeBox, sideLeft);
+
+                let sideRight = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 2035 - planeWidth * 2, 580), facadeCubanitMaterial);
+                sideRight.position.y = 2035 / 2;
+                sideRight.position.x = -600 / 2 + planeWidth / 2;
+                sideRight.position.z = 580 / 2;
+                addItem(fridgeBox, sideRight);
+
+                // let testCube = new THREE.Mesh(new THREE.BoxGeometry(570, 1788, 570), new THREE.MeshBasicMaterial({color: 0x00ff51, wireframe: wireframe}));
+                // testCube.position.y = 1788 / 2 + planeWidth;
+                // testCube.position.x = 0;
+                // testCube.position.z = 570 / 2;
+                // addItem(fridgeBox, testCube);
+            }
+
+            let fridgeFacadeTop = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, (1315 - facadeOffset * 2), facadeWidth), facadeMaterial);
+            fridgeFacadeTop.position.y = 2035 - 1315 / 2;
+            fridgeFacadeTop.position.z = -facadeWidth / 2;
+            addItem(fridgeBox, fridgeFacadeTop);
+
+            let fridgeFacadeBot = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, 720 - facadeOffset * 2, 16), facadeMaterial);
+            fridgeFacadeBot.position.y = 720 / 2;
+            fridgeFacadeBot.position.z = - facadeWidth / 2;
+            addItem(fridgeBox, fridgeFacadeBot);
+        }
+        if (visibility["owen"] === 1) {
+            let owenBox = new THREE.Object3D();
+            let depth = leftDepth;
+            owenBox.position.x = 300 + leftOffset;
+            owenBox.position.y = socle;
+            owenBox.position.z = -depth - leftDepthOffet;
+            addItem(leftSide, owenBox);
+
+            let totalHeight = 2035;
+            {
+                let bottomSide = new THREE.Mesh(new THREE.BoxGeometry(600, planeWidth, 520), owenMat);
+                bottomSide.position.y = planeWidth / 2;
+                bottomSide.position.z = 520 / 2;
+                addItem(owenBox, bottomSide);
+
+                let topSide = new THREE.Mesh(new THREE.BoxGeometry(600, planeWidth, 520), owenMat);
+                topSide.position.y = totalHeight - planeWidth / 2;
+                topSide.position.z = 0;
+                topSide.position.z = 520 / 2;
+                addItem(owenBox, topSide);
+
+                let sideLeft = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, totalHeight - planeWidth * 2, depth), owenMat);
+                sideLeft.position.y = totalHeight / 2;
+                sideLeft.position.x = 600 / 2 - planeWidth / 2;
+                sideLeft.position.z = depth / 2;
+                addItem(owenBox, sideLeft);
+
+                let sideRight = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, totalHeight - planeWidth * 2, depth), facadeMaterial);
+                sideRight.position.y = totalHeight / 2;
+                sideRight.position.x = -600 / 2 + planeWidth / 2;
+                sideRight.position.z = depth / 2;
+                addItem(owenBox, sideRight);
+
+                let sideRight2 = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 716, 50), owenMat);
+                sideRight2.position.y = 720 / 2;
+                sideRight2.position.x = -600 / 2 + planeWidth / 2 - planeWidth;
+                sideRight2.position.z = 50 / 2;
+                addItem(owenBox, sideRight2);
+
+                let midOwen = new THREE.Mesh(new THREE.BoxGeometry(600 - planeWidth * 2 - 3, planeWidth, 510), owenMat);
+                midOwen.position.y = + planeWidth / 2 + 720 + 595 - 9 + 720 / 2;
+                midOwen.position.z = 510 / 2 + 10;
+                addItem(owenBox, midOwen);
+
+                let bottomOwen = new THREE.Mesh(new THREE.BoxGeometry(600 - planeWidth * 2, planeWidth, 520), owenMat);
+                bottomOwen.position.y = - planeWidth / 2 + 720;
+                bottomOwen.position.z = 520 / 2;
+                addItem(owenBox, bottomOwen);
+
+                let topOwen = new THREE.Mesh(new THREE.BoxGeometry(600 - planeWidth * 2, planeWidth, 520), owenMat);
+                topOwen.position.y = + planeWidth / 2 + 720 + 595 - 9;
+                topOwen.position.z = 520 / 2;
+                addItem(owenBox, topOwen);
+
+                let sideBack = new THREE.Mesh(new THREE.BoxGeometry(600 - planeWidth * 2 - 4, 716, 4), facadeCubanitMaterial);
+                sideBack.position.y = totalHeight - 716 / 2 - planeWidth / 2;
+                sideBack.position.z = depth - 50 + 4 / 2;
+                addItem(owenBox, sideBack);
+            }
+
+            let owenFacadeT = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, 2035 - 720 - 600 - facadeOffset * 2, facadeWidth), facadeMaterial);
+            owenFacadeT.position.y = 2135 - (2135 - 720 - 600) / 2 - 50;
+            owenFacadeT.position.z = -facadeWidth / 2;
+            addItem(owenBox, owenFacadeT);
+
+            let owenBlack = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, 595 - facadeOffset * 2, 16), new THREE.MeshStandardMaterial({color: 0x111111, metalness: 0.3, roughness: 0, wireframe: wireframe}));
+            owenBlack.position.y = 2135 - (2135 - 720 - 600) / 2 - 50 - 660;
+            owenBlack.position.z = -facadeWidth / 2;
+            addItem(owenBox, owenBlack);
+
+            //
+            let owenFacadeB1 = new THREE.Mesh(new THREE.BoxGeometry(600 - 6, 720 / 2 - facadeOffset * 2, facadeWidth), facadeMaterial);
+            owenFacadeB1.position.y = 720 / 4 + 720 / 4  + 720 / 4 - 1;
+            owenFacadeB1.position.z = -facadeWidth / 2;
+            addItem(owenBox, owenFacadeB1);
+
+            let owenFacadeB2 = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset, 720 / 2 - facadeOffset * 2, facadeWidth), facadeMaterial);
+            owenFacadeB2.position.y = 720 / 2 / 2 - 2;
+            owenFacadeB2.position.z = -facadeWidth / 2;
+            addItem(owenBox, owenFacadeB2);
+            //
+            // let owenFacadeR = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, 2135 - facadeOffset * 2 - 860, 16), facadeMaterial);
+            // owenFacadeR.position.x = -300 - facadeWidth / 2;
+            // owenFacadeR.position.y = (2135 - facadeOffset * 2 - 860) / 2 - 260;
+            // owenFacadeR.rotation.y = Math.PI / 2;
+            // addItem(owenBox, owenFacadeR);
+        }
+        if (visibility["socle"] === 1) {
+            let socleLeft = new THREE.Mesh(new THREE.BoxGeometry(600 + 600 + 180 + 100, 100, 550), socleMaterial);
+            socleLeft.position.y = 100 / 2;
+            socleLeft.position.z = -550 / 2;
+            socleLeft.position.x = 680 + leftOffset;
+            addItem(leftSide, socleLeft);
+        }
+
+
+        leftSide.rotation.y = -roomAngle;
+        // leftSide.rotation.y = -Math.PI / 180 * 135;
+
+        room.add(leftSide);
+
+        let rightSide = new THREE.Group();
+        let offsetWall_smalll = 22;
+        // createLight(rightSide);
+        if (visibility["washBasin"] === 1) {
+            let depth = 560;
+            let washbasinBox = new THREE.Object3D();
+            washbasinBox.position.x = rightOffset + 600 / 2;
+            washbasinBox.position.y = socle;
+            washbasinBox.position.z = depth / 2 + offsetWall_smalll;
+            addItem(rightSide, washbasinBox);
+
+
+            {
+                let bottomSide = new THREE.Mesh(new THREE.BoxGeometry(600, planeWidth, depth), facadeCubanitMaterial);
+                bottomSide.position.y = planeWidth / 2;
+                bottomSide.position.z = 0;
+                addItem(washbasinBox, bottomSide);
+
+                let topSide = new THREE.Mesh(new THREE.BoxGeometry(600 - planeWidth * 2, 80, planeWidth), facadeCubanitMaterial);
+                topSide.position.y = 720 - 40;
+                topSide.position.z = depth / 2 - 10 - planeWidth / 2;
+                addItem(washbasinBox, topSide);
+
+                let sideLeft = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 720 - planeWidth, depth), facadeCubanitMaterial);
+                sideLeft.position.x = 600 / 2 - planeWidth / 2;
+                sideLeft.position.y = planeWidth/2 + 720 / 2;
+                addItem(washbasinBox, sideLeft);
+
+                let sideRight = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 720 - planeWidth, depth), facadeCubanitMaterial);
+                sideRight.position.x = - 600 / 2 + planeWidth / 2;
+                sideRight.position.y = planeWidth/2 + 720 / 2;
+                addItem(washbasinBox, sideRight);
+
+                let sideBack = new THREE.Mesh(new THREE.BoxGeometry(600 - planeWidth * 2, 80, planeWidth), facadeCubanitMaterial);
+                sideBack.position.y = 720 - 40;
+                sideBack.position.z = -depth / 2 + planeWidth / 2;
+                addItem(washbasinBox, sideBack);
+            }
+
+            let washbasinFacade = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, 720 - facadeOffset * 2, facadeWidth), facadeMaterial);
+            washbasinFacade.position.y = 720 / 2 - 2;
+            washbasinFacade.position.z = depth / 2 + facadeWidth / 2;
+            addItem(washbasinBox, washbasinFacade);
+
+            // let washbasinFacade2 = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, 920, 13), new THREE.MeshBasicMaterial({wireframe: true}));
+            // washbasinFacade2.position.y = 720 / 2;
+            // washbasinFacade2.position.z = depth / 2 + 13 / 2 + facadeWidth;
+            // addItem(washbasinBox, washbasinFacade2);
+        }
+
+        if (visibility["washMashine"] === 1) {
+            let midBox = new THREE.Mesh(new THREE.BoxGeometry(600, 720, 560), facadeCubanitMaterial);
+            midBox.position.x = rightOffset + 600 / 2 + 600;
+            midBox.position.y = 720 / 2 + socle;
+            midBox.position.z = 560 / 2 + offsetWall_smalll;
+            addItem(rightSide, midBox);
+
+            let midBoxFacade = new THREE.Mesh(new THREE.BoxGeometry(600 - facadeOffset * 2, 860 - 38 - facadeOffset * 2 - socle, 16), facadeMaterial);
+            midBoxFacade.position.z = 580 / 2;
+            addItem(midBox, midBoxFacade);
+        }
+        if (visibility["socle"] === 1) {
+            let socleRight = new THREE.Mesh(new THREE.BoxGeometry(600 + 600 + 600 + 50, 100, 550), socleMaterial);
+            socleRight.position.y = 100 / 2;
+            socleRight.position.z = 550 / 2;
+            socleRight.position.x = 925 + rightOffset;
+            addItem(rightSide, socleRight);
+
+            let socleRight2 = new THREE.Mesh(new THREE.BoxGeometry(600, 100, 1450), socleMaterial);
+            socleRight2.position.y = 100 / 2;
+            socleRight2.position.z = 1450 / 2;
+            socleRight2.position.x = 950 + 600 + rightOffset;
+            addItem(rightSide, socleRight2);
+        }
+
+        if (visibility["topPlane2"] === 1) {
+            let topBoxLength = 1900;
+            let topBox = new THREE.Mesh(new THREE.BoxGeometry(800, 38, topBoxLength), topMaterial);
+            topBox.position.x = rightOffset + 600 + 600 + 800 / 2 + 23;
+            topBox.position.y = 860 - 38 / 2;
+            topBox.position.z = topBoxLength / 2;
+            addItem(rightSide, topBox);
+
+            let cooker = new THREE.Mesh(new THREE.BoxGeometry(592, 10, 592), new THREE.MeshStandardMaterial({color: 0x111111, metalness: 0.3, roughness: 0, wireframe: wireframe}));
+            cooker.position.y = 20;
+            cooker.position.x = 4;
+            cooker.position.z = (600 + 592/2) - topBoxLength / 2;
+            addItem(topBox, cooker);
+        }
+        
+        if (visibility["topPlane1"] === 1) {
+            let angle1 = Math.PI - roomAngle;
+            let distance = -Math.cos(angle1) * leftOffset + Math.tan(angle1) * ( 600 -  Math.sin(angle1) * leftOffset);
+            // let angle2 = (Math.PI / 2 - angle1);
+            // angle2 = Math.PI / 4;
+            // let topOffset =
+            let x = 0;
+            let points = [
+                new THREE.Vector3(0, 0, 0),
+                new THREE.Vector3(0, 38, 0),
+                new THREE.Vector3(rightOffset + 600 + 600 + 23, 0, 0),
+                new THREE.Vector3(rightOffset + 600 + 600 + 23, 38, 0),
+                new THREE.Vector3(rightOffset + 600 + 600 + 23, 0, 600),
+                new THREE.Vector3(rightOffset + 600 + 600 + 23, 38, 600),
+                new THREE.Vector3(-(leftOffset + 0) * Math.cos(angle1), 0, (0 + leftOffset) * Math.sin(angle1)),
+                new THREE.Vector3(-(leftOffset + 0) * Math.cos(angle1), 38, (0+ leftOffset) * Math.sin(angle1)),
+                new THREE.Vector3(distance, 0, 600),
+                new THREE.Vector3(distance, 38, 600)
+            ];
+            let topBox2Geometry = new ConvexBufferGeometry(points);
+            let topBox2 = new THREE.Mesh(topBox2Geometry, topMaterial);
+            topBox2.position.y = 860 - 38;
+            addItem(rightSide, topBox2);
+
+            let washBox = new THREE.Mesh(new THREE.BoxGeometry(560, 10, 530), new THREE.MeshStandardMaterial({color: 0x111111, metalness: 0.3, roughness: 0, wireframe: wireframe}));
+            washBox.position.y = 38;
+            washBox.position.x = rightOffset + 300;
+            washBox.position.z = 300;
+            addItem(topBox2, washBox);
+        }
+
+        if (visibility["balconyBox"]) {
+            let depth = 702;
+            let width = 570;
+            let balconyBox = new THREE.Object3D();
+            // kargoBox.visible = false;
+            balconyBox.position.y = (720) / 2 + socle;
+            balconyBox.position.x = rightOffset + 600 + 600 + depth;
+            balconyBox.position.z = width / 2 + 12;
+            balconyBox.rotation.y = -Math.PI / 2;
+            addItem(rightSide, balconyBox);
+
+            // let edges = new THREE.EdgesHelper( kargoBox, 0xFF0000);
+            // edges.material.linewidth = 2;
+            //
+            // edges = new THREE.Object3D();
+            // edges.position.copy(kargoBox.position);
+            // leftSide.add(edges);
+
+            {
+                let bottomSide = new THREE.Mesh(new THREE.BoxGeometry(width, planeWidth, depth), facadeCubanitMaterial);
+                bottomSide.position.y = -(720) / 2 + planeWidth / 2;
+                bottomSide.position.z = depth / 2;
+                addItem(balconyBox, bottomSide);
+
+                let topSide1 = new THREE.Mesh(new THREE.BoxGeometry(width - planeWidth * 2, planeWidth, 100), facadeCubanitMaterial);
+                topSide1.position.y = (720) / 2 - planeWidth / 2;
+                topSide1.position.z = depth / 2 - 200;
+                addItem(balconyBox, topSide1);
+
+                let topSide2 = new THREE.Mesh(new THREE.BoxGeometry(width - planeWidth * 2, planeWidth, 100), facadeCubanitMaterial);
+                topSide2.position.y = (720) / 2 - planeWidth / 2;
+                topSide2.position.z = depth / 2 + 200;
+                addItem(balconyBox, topSide2);
+
+                let midPlane = new THREE.Mesh(new THREE.BoxGeometry(width - planeWidth * 2, planeWidth, depth - planeWidth - 10), facadeCubanitMaterial);
+                midPlane.position.y = planeWidth / 2;
+                midPlane.position.z = depth / 2 - planeWidth / 4;
+                addItem(balconyBox, midPlane);
+
+                let sideLeft = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 720 - planeWidth, depth), facadeCubanitMaterial);
+                sideLeft.position.x = width / 2 - planeWidth / 2;
+                sideLeft.position.y = planeWidth / 2;
+                sideLeft.position.z = depth / 2;
+                addItem(balconyBox, sideLeft);
+
+                let sideRight = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, 720 - planeWidth, depth), facadeCubanitMaterial);
+                sideRight.position.x = -width / 2 + planeWidth / 2;
+                sideRight.position.y = planeWidth / 2;
+                sideRight.position.z = depth / 2;
+                addItem(balconyBox, sideRight);
+
+                let sideBack = new THREE.Mesh(new THREE.BoxGeometry(width - planeWidth * 2, 720 - planeWidth, planeWidth), facadeCubanitMaterial);
+                sideBack.position.z = depth - planeWidth / 2;
+                sideBack.position.y = planeWidth / 2;
+                addItem(balconyBox, sideBack);
+            }
+
+
+            // let kargoFacade = new THREE.Mesh(new THREE.BoxGeometry(160 - facadeOffset * 2, 2135 - facadeOffset * 2 - socle, 16), facadeMaterial);
+            // kargoFacade.position.z = -facadeWidth / 2;
+            // addItem(balconyBox, kargoFacade);
+        }
+
+        if (visibility["cooker"] === 1) {
+            let cookBoxInner = new THREE.Mesh(new THREE.BoxGeometry(700 - 100, 860 - 38 - socle, 1500), facadeWood2Material);
+            cookBoxInner.position.x = rightOffset + 600 + 600 + 700 / 2;
+            cookBoxInner.position.y = (860 - 38 - socle) / 2 + socle;
+            cookBoxInner.position.z = 1500 / 2;
+            addItem(rightSide, cookBoxInner);
+
+            // let cookBoxInner1Facade = new THREE.Mesh(new THREE.BoxGeometry(16, 860 - socle - 38, 900), facadeWood2Material);
+            // cookBoxInner1Facade.position.z = 300;
+            // cookBoxInner1Facade.position.x = -350 + 16 + 10;
+            // addItem(cookBoxInner, cookBoxInner1Facade);
+            //
+            // let cookBoxInner2Facade = new THREE.Mesh(new THREE.BoxGeometry(700, 860 - socle - 38, 16), facadeWood2Material);
+            // cookBoxInner2Facade.position.z = 750;
+            // cookBoxInner2Facade.position.x = 0;
+            // addItem(cookBoxInner, cookBoxInner2Facade);
+            //
+            // let cookBoxInner3Facade = new THREE.Mesh(new THREE.BoxGeometry(16, 860 - socle - 38, 1500 - 600), facadeWood2Material);
+            // cookBoxInner3Facade.position.z = 300;
+            // cookBoxInner3Facade.position.x = 350 - 16 - 10;
+            // addItem(cookBoxInner, cookBoxInner3Facade);
+            //
+            // let cookBoxInner4Facade = new THREE.Mesh(new THREE.BoxGeometry(16, 860 - socle - 38, 600), facadeCubanitMaterial);
+            // cookBoxInner4Facade.position.z = -450;
+            // cookBoxInner4Facade.position.x = 350 - 16 - 10;
+            // addItem(cookBoxInner, cookBoxInner4Facade);
+        }
+
+        if (visibility["topConner"] === 1) {
+            let topConnerOrigin = new THREE.Object3D();
+            let angle1 = Math.PI - roomAngle;
+            topConnerOrigin.position.y = 860 + 570 - 70;
+            let backWidth = 4;
+            let leftBoxWidth = 300;
+            let widthBoxOffset = 335;
+            let distanceOff = leftOffset - (Math.tan(angle1) * leftBoxWidth - rightOffset) / Math.cos(angle1);
+
+            let topConnerMat = facadeCubanitMaterial;
+            let midConnerMat = facadeCubanitMaterial;
+            let botConnerMat = facadeCubanitMaterial;
+
+            backWidth = 4;
+            distanceOff = (leftOffset - planeWidth) - (Math.tan(angle1) * leftBoxWidth - rightOffset) / Math.cos(angle1) + 3;
+            let pointsConner = [
+                new THREE.Vector3(0, 0, backWidth),
+                new THREE.Vector3(0, planeWidth, backWidth),
+
+                new THREE.Vector3(rightOffset - planeWidth, 0, backWidth),
+                new THREE.Vector3(rightOffset - planeWidth, planeWidth, backWidth),
+
+                new THREE.Vector3(rightOffset - planeWidth, 0, 351.5),
+                new THREE.Vector3(rightOffset - planeWidth, planeWidth, 351.5),
+
+                new THREE.Vector3(-(leftOffset - planeWidth) * Math.cos(angle1) + backWidth * Math.sin(angle1), 0, (leftOffset - planeWidth) * Math.sin(angle1) + backWidth * Math.cos(angle1)),
+                new THREE.Vector3(-(leftOffset - planeWidth) * Math.cos(angle1) + backWidth * Math.sin(angle1), planeWidth, (leftOffset - planeWidth) * Math.sin(angle1) + backWidth * Math.cos(angle1)),
+
+                new THREE.Vector3(rightOffset - distanceOff * Math.cos(angle1), 0, widthBoxOffset + distanceOff * Math.sin(angle1)),
+                new THREE.Vector3(rightOffset - distanceOff * Math.cos(angle1), planeWidth, widthBoxOffset + distanceOff * Math.sin(angle1))
+            ];
+
+            backWidth = 5;
+            distanceOff = (leftOffset - planeWidth - 2) - (Math.tan(angle1) * leftBoxWidth - rightOffset) / Math.cos(angle1);
+            let pointsConnerMid = [
+                new THREE.Vector3(0, 0, backWidth),
+                new THREE.Vector3(0, planeWidth, backWidth),
+
+                new THREE.Vector3(rightOffset - planeWidth - 2, 0, backWidth),
+                new THREE.Vector3(rightOffset - planeWidth - 2, planeWidth, backWidth),
+
+                new THREE.Vector3(rightOffset - planeWidth - 2, 0, 351.5),
+                new THREE.Vector3(rightOffset - planeWidth - 2, planeWidth, 351.5),
+
+                new THREE.Vector3(-(leftOffset - planeWidth - 2) * Math.cos(angle1) + (backWidth) * Math.cos(angle1), 0, (leftOffset - planeWidth - 2) * Math.sin(angle1) + (backWidth) * Math.sin(angle1)),
+                new THREE.Vector3(-(leftOffset - planeWidth - 2) * Math.cos(angle1) + (backWidth) * Math.cos(angle1), planeWidth, (leftOffset - planeWidth - 2) * Math.sin(angle1) + (backWidth) * Math.sin(angle1)),
+
+                new THREE.Vector3(rightOffset - distanceOff * Math.cos(angle1) , 0, widthBoxOffset + distanceOff * Math.sin(angle1)),
+                new THREE.Vector3(rightOffset - distanceOff * Math.cos(angle1) , planeWidth, widthBoxOffset + distanceOff * Math.sin(angle1))
+            ];
+
+            let topConnerGeometry = new ConvexBufferGeometry(pointsConner);
+            let topConnerGeometryBot = new ConvexBufferGeometry(pointsConner);
+            let topConnerGeometryMid = new ConvexBufferGeometry(pointsConnerMid);
+            let topConnerTop = new THREE.Mesh(topConnerGeometry, topConnerMat);
+            let topConnerMid = new THREE.Mesh(topConnerGeometryMid, midConnerMat);
+            topConnerTop.position.y = 480 - planeWidth;
+            topConnerMid.position.y = 480 / 2 - planeWidth * 3 / 2;
+            let topConnerBot = new THREE.Mesh(topConnerGeometryBot, botConnerMat);
+
+            addItem(topConnerOrigin, topConnerTop);
+            addItem(topConnerOrigin, topConnerMid);
+            addItem(topConnerOrigin, topConnerBot);
+            addItem(rightSide, topConnerOrigin);
+
+            if (false) {
+                let points = pointsConner;
+                let line = new THREE.Line3(points[6], points[8]);
+                let closest = line.closestPointToPoint(points[2], false, new THREE.Vector3(0, 0, 0));
+                let boxWidth = points[6].distanceTo(points[8]);
+                let boxHeight = closest.distanceTo(points[2]);
+                console.log('boxWidth', boxWidth);
+                console.log('boxHeight', boxHeight);
+                let topConnerBoxOrigin = new THREE.Object3D();
+                topConnerBoxOrigin.position.y = +860 + 570 - 70;
+                topConnerBoxOrigin.rotation.y = angle1;
+                let topConnerBox = new THREE.Mesh(new THREE.BoxGeometry(boxHeight, planeWidth, boxWidth), new THREE.MeshStandardMaterial({color: 0xFF0000, wireframe: wireframe}));
+                let arrowsHeight = 480 - planeWidth / 2;
+                topConnerBox.position.y = arrowsHeight;
+                topConnerBox.position.z = boxWidth / 2 + 3.75;
+                topConnerBox.position.x = -28.75;
+
+                addItem(topConnerBoxOrigin, topConnerBox);
+                addItem(rightSide, topConnerBoxOrigin);
+
+                let dir1 = points[6].clone().sub(points[0]).normalize();
+                let origin1 = points[6].clone().add(dir1.clone().multiplyScalar(-boxHeight));
+                let dir2 = points[2].clone().sub(origin1).normalize();
+                let offsetY1 = origin1.distanceTo(points[0]);
+                let arrowLeftY = new THREE.ArrowHelper(dir1, origin1, offsetY1, 0xFFFF00);
+                arrowLeftY.position.y = arrowsHeight;
+                // addItem(topConnerOrigin, arrowLeftY);
+
+                let offsetX1 = origin1.distanceTo(points[2]);
+                let arrowLeftX = new THREE.ArrowHelper(dir2, origin1, offsetX1, 0xFFFF00);
+                arrowLeftX.position.y = arrowsHeight;
+                // addItem(topConnerOrigin, arrowLeftX);
+
+                let origin2 = points[8].clone().add(dir1.clone().multiplyScalar(-boxHeight));
+                let offsetY2 = origin2.distanceTo(points[4]);
+                let arrowRightY = new THREE.ArrowHelper(dir1, origin2, offsetY2, 0xFFFF00);
+                arrowRightY.position.y = arrowsHeight;
+                // addItem(topConnerOrigin, arrowRightY);
+
+                let offsetX2 = origin2.distanceTo(points[2]);
+                let arrowRightX = new THREE.ArrowHelper(dir2.clone().multiplyScalar(-1), origin2, offsetX2, 0xFFFF00);
+                arrowRightX.position.y = arrowsHeight;
+                // addItem(topConnerOrigin, arrowRightX);
+
+                console.log('offsetX1', offsetX1);
+                console.log('offsetY1', offsetY1);
+                console.log('offsetX2', offsetX2);
+                console.log('offsetY2', offsetY2);
+            }
+
+            backWidth = 4;
+            let height = 480;
+            let sideLeft = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, height, (widthBoxOffset + 73) - backWidth), topConnerMat);
+            sideLeft.position.z = ((widthBoxOffset + 73) + backWidth) / 2;
+            sideLeft.position.y = height / 2;
+            sideLeft.position.x = -leftOffset + planeWidth / 2;
+
+
+            let sideLeftBack = new THREE.Mesh(new THREE.BoxGeometry(leftOffset - 10, height, backWidth), topConnerMat);
+            sideLeftBack.position.y = height / 2;
+            sideLeftBack.position.x = -leftOffset / 2 + backWidth / 2;
+            sideLeftBack.position.z = backWidth / 2;
+
+            let sideOrigin = new THREE.Object3D();
+            sideOrigin.rotation.y = angle1;
+            addItem(topConnerOrigin, sideOrigin);
+            addItem(sideOrigin, sideLeft);
+            addItem(sideOrigin, sideLeftBack);
+
+
+            let sideRight = new THREE.Mesh(new THREE.BoxGeometry(planeWidth, height, 340 - backWidth), topConnerMat);
+            sideRight.position.y = height / 2;
+            sideRight.position.z = (340 + backWidth) / 2;
+            sideRight.position.x = rightOffset - planeWidth / 2;
+            addItem(topConnerOrigin, sideRight);
+
+            let sideRightBack = new THREE.Mesh(new THREE.BoxGeometry(rightOffset - backWidth, height, backWidth), topConnerMat);
+            sideRightBack.position.y = height / 2 + backWidth;
+            sideRightBack.position.x = rightOffset / 2 - backWidth / 2;
+            sideRightBack.position.z = backWidth / 2;
+            addItem(topConnerOrigin, sideRightBack);
+
+            let sideRightFront = new THREE.Mesh(new THREE.BoxGeometry(40, 480 - facadeOffset * 2, facadeWidth), topConnerMat);
+            sideRightFront.position.z = 347;
+            sideRightFront.position.x = 218;
+            sideRightFront.position.y = 340 / 2 + 70;
+            sideRightFront.rotation.y = angle1;
+            // addItem(topConnerOrigin, sideRightFront);
+
+            let topConnerFacade = new THREE.Mesh(new THREE.BoxGeometry(162 - facadeOffset * 2, 480, facadeWidth), facadeWood1Material);
+            topConnerFacade.position.z = 410;
+            topConnerFacade.position.x = 173;
+            topConnerFacade.position.y = 340 / 2 + 70;
+            topConnerFacade.rotation.y = angle1;
+            addItem(topConnerOrigin, topConnerFacade);
+        }
+        if (visibility["topLeft"] === 1) {
+            let topLeftBox = new THREE.Mesh(new THREE.BoxGeometry(1200, 480, 340), facadeCubanitMaterial);
+            topLeftBox.position.x = rightOffset + 1200 / 2;
+            topLeftBox.position.y = 860 + 570 + 340 / 2;
+            topLeftBox.position.z = 340 / 2;
+            addItem(rightSide, topLeftBox);
+
+            let topLeftBoxFacade = new THREE.Mesh(new THREE.BoxGeometry(1200 - facadeOffset * 2, 480 - facadeOffset * 2, facadeWidth), facadeWood1Material);
+            topLeftBoxFacade.position.z = 340 / 2 + facadeWidth / 2;
+            addItem(topLeftBox, topLeftBoxFacade);
+        }
+
+        if (visibility["topRight"] === 1) {
+            let topRightBox = new THREE.Mesh(new THREE.BoxGeometry(800, 480, 340), facadeCubanitMaterial);
+            topRightBox.position.x = rightOffset + 1200 + 800 / 2;
+            topRightBox.position.y = 860 + 570 + 340 / 2;
+            topRightBox.position.z = 340 / 2;
+            addItem(rightSide, topRightBox);
+
+            let topRightFacade = new THREE.Mesh(new THREE.BoxGeometry(800 - facadeOffset * 2, 480 - facadeOffset * 2, facadeWidth), facadeWood2Material);
+            topRightFacade.position.z = 340 / 2 + facadeWidth / 2;
+            addItem(topRightBox, topRightFacade);
+        }
+
+        addItem(room, rightSide);
+    }
+
+    function createRoom() {
+
+
+        let textureFlor = new THREE.TextureLoader().load('http://localhost:8080/img/floor.jpg');
+        textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
+        textureFlor.repeat.set(3, 3);
+        // let wallMidSize = 160 + 600 + 600 + leftOffset + 3;
+        let wallMidSize = 1618;
+        let wallHeight = 3000;
+        // let wallRightSize = (600 + 600 + 800 + 300 + 1000 + 1000);
+        let wallRightSize = 4125;
+        let showerWallSize = 1580;
+        let showerWall2Size = 1000;
+
+        let wallMat = new THREE.MeshPhongMaterial({color: 0x777777, side: THREE.DoubleSide, wireframe: wireframe});
+        let wallRightRight = new THREE.Mesh(new THREE.PlaneBufferGeometry(wallRightSize, wallHeight, 4, 4), wallMat);
+        let wallRight = new THREE.Mesh(new THREE.PlaneBufferGeometry(wallRightSize, wallHeight, 4, 4), wallMat);
+        let wallRightTmp = new THREE.Mesh(new THREE.PlaneBufferGeometry(wallRightSize, wallHeight, 40, 40), wallMat);
+        let wallLeft = new THREE.Mesh(new THREE.PlaneBufferGeometry(wallMidSize, wallHeight, 4, 4), wallMat);
+        let showerWall = new THREE.Mesh(new THREE.PlaneBufferGeometry(showerWallSize, wallHeight, 4, 4), wallMat);
+        let showerWall2 = new THREE.Mesh(new THREE.PlaneBufferGeometry(showerWall2Size, wallHeight, 4, 4), wallMat);
+        let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(5800, 5800, 1, 1), new THREE.MeshPhongMaterial({map: textureFlor, side: THREE.DoubleSide, wireframe: wireframe}));
+
+        wallRight.position.x = wallRightSize / 2;
+        wallRightTmp.position.x = wallRightSize / 2;
+        wallRightTmp.position.z = 600;
+
+        let wallLeftOrigin = new THREE.Object3D();
+        let wallRightOrigin = new THREE.Object3D();
+
+        wallLeftOrigin.position.y = wallHeight / 2;
+        wallRightOrigin.position.y = wallHeight / 2;
+
+        wallLeftOrigin.rotation.y = Math.PI - roomAngle;
+        addItem(wallLeftOrigin, wallLeft);
+        addItem(wallRightOrigin, wallRight);
+        // addItem(wallRightOrigin, wallRightTmp);
+        wallLeft.position.x = -wallMidSize / 2;
+
+
+        // wallLeft.position.x = -Math.sin(roomAngle - Math.PI / 2) * wallMidSize / 2;
+        // wallLeft.position.z = Math.sin(roomAngle - Math.PI / 2) * wallMidSize / 2;
+
+
+        let showerWallOrigin = new THREE.Object3D();
+        showerWallOrigin.position.x = -wallMidSize;
+        showerWallOrigin.rotation.y = Math.PI / 2;
+        addItem(showerWallOrigin, showerWall);
+        showerWall.position.x = -showerWallSize / 2;
+
+
+        wallRightRight.rotation.y = Math.PI / 2;
+        wallRightRight.position.x = 2240;
+        wallRightRight.position.z = -wallRightSize / 2;
+
+        floor.rotation.x = -Math.PI / 2;
+        floor.position.z = 1400;
+        floor.position.x = 1400;
+
+        showerWall2.rotation.y = Math.PI / 2;
+        showerWall2.position.x = -showerWallSize;
+        showerWall2.position.z = -showerWall2Size / 2;
+
+        if (visibility["floor"] === 1) {
+            addItem(room, floor);
+        }
+        if (visibility["walls"] === 1) {
+            addItem(room, wallRightOrigin);
+            addItem(room, wallLeftOrigin);
+            addItem(wallLeftOrigin, showerWallOrigin);
+            addItem(wallRightOrigin, wallRightRight);
+            addItem(showerWallOrigin, showerWall2);
+        }
+
+        room.position.x = -100;
+        room.position.z = -400;
+
+        room.rotation.y = -Math.PI / 18 * 37.5;
+
+        scene.add(room);
+    }
+
+    function addItem(parent, child) {
+        child.transparent = true;
+        child.castShadow = true;
+        child.receiveShadow = true;
+        parent.add(child);
+    }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        controls.update();
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        render();
+    }
+
+    function render() {
+        renderer.render(scene, camera);
+    }
+
+</script>
+
+</body>
+</html>
