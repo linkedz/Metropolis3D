@@ -140,8 +140,13 @@
         // textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
         // textureFlor.repeat.set(3, 3);
         // let wallMidSize = 160 + 600 + 600 + leftOffset + 3;
+        let doorFlor = new THREE.TextureLoader().load('/img/doors.jpg');
+        doorFlor.wrapS = doorFlor.wrapT = THREE.RepeatWrapping;
+        doorFlor.repeat.set(1, 1);
+
         let wallMat = new THREE.MeshStandardMaterial({color: 0xB2A7A1, side: THREE.DoubleSide, wireframe: false});
         let doorMat = new THREE.MeshStandardMaterial({color: 0x998C6D, side: THREE.DoubleSide, wireframe: wireframe});
+        let enterDoorMat = new THREE.MeshStandardMaterial({color: 0xFFFFFF, side: THREE.DoubleSide, wireframe: wireframe, map: doorFlor});
         let windowMat = new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true});
         let wallWentLength = 1765 + 100;
         let wallWentWidth = 513 + 120;
@@ -365,6 +370,17 @@
                 enterWall.position.x = -2082 - 150;
                 enterWall.position.z = -(1090) - 1000 - (525 / 2);
                 addItem(wareHauseOrigin, enterWall);
+
+                let enterDoorOrigin = new THREE.Object3D();
+                enterDoorOrigin.position.x = -2082 - 150 - 150;
+                enterDoorOrigin.position.z = -(1090) - 1000;
+                enterDoorOrigin.rotation.y = Math.PI / 180 * 170;
+                addItem(wareHauseOrigin, enterDoorOrigin);
+
+                let enterDoor = new THREE.Mesh(new THREE.BoxGeometry(50, 2093, 1000), enterDoorMat);
+                enterDoor.position.y = -height / 2 + 2093 / 2;
+                enterDoor.position.z = -914 / 2;
+                addItem(enterDoorOrigin, enterDoor);
 
                 let enterWallTop = new THREE.Mesh(new THREE.BoxGeometry(300, height - 2093 + 10, 1000), wallMat);
                 enterWallTop.position.y = -height / 2 + height - (height - 2093 ) /2;
