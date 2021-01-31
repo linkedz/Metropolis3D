@@ -140,7 +140,7 @@
         // textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
         // textureFlor.repeat.set(3, 3);
         // let wallMidSize = 160 + 600 + 600 + leftOffset + 3;
-        let wallMat = new THREE.MeshStandardMaterial({color: 0x777777, side: THREE.DoubleSide, wireframe: wireframe});
+        let wallMat = new THREE.MeshStandardMaterial({color: 0xB2A7A1, side: THREE.DoubleSide, wireframe: wireframe});
         let doorMat = new THREE.MeshStandardMaterial({color: 0x998C6D, side: THREE.DoubleSide, wireframe: wireframe});
         let windowMat = new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true});
         let wallWentLength = 1765 + 100;
@@ -635,10 +635,13 @@
             addItem(sleepRoom2, table2);
         }
 
-        let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(58000, 58000, 10, 10), new THREE.MeshStandardMaterial({map: null, side: THREE.DoubleSide, wireframe: wireframe}));
+        let textureFlor = new THREE.TextureLoader().load('/img/floor.jpg');
+        textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
+        textureFlor.repeat.set(3, 3);
+        let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(9500, 11000, 10, 10), new THREE.MeshStandardMaterial({map: textureFlor, side: THREE.DoubleSide, wireframe: wireframe}));
         floor.rotation.x = -Math.PI / 2;
-        floor.position.z = 1400;
-        floor.position.x = 1400;
+        floor.position.z = -500;
+        floor.position.x = 350;
 
         if (visibility["floor"] === 1) {
             addItem(room, floor);
