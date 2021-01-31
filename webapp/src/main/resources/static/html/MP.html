@@ -497,7 +497,7 @@
                     let tableKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(700, 50, 1200), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
                     tableKitchen2.rotation.y = Math.PI / 2;
                     tableKitchen2.position.y = -height / 2 + 800 - 50 / 2;
-                    tableKitchen2.position.x = 700 / 2 + 400 + 150;
+                    tableKitchen2.position.x = 700 / 2 + 400 + 75;
                     tableKitchen2.position.z = 1200 / 2 + 400;
                     addItem(kitchenOrigin, tableKitchen2);
 
@@ -524,6 +524,23 @@
                     leg4.position.x = 700 / 2 - 45;
                     leg4.position.z = -1200 / 2 + 45;
                     addItem(tableKitchen2, leg4);
+
+                    let chair1 = createChair();
+                    chair1.rotation.y = -Math.PI;
+                    chair1.position.y = -500 / 2;
+                    chair1.position.z = -500;
+                    addItem(tableKitchen2, chair1);
+
+                    let chair2 = createChair();
+                    chair2.rotation.y = -Math.PI / 2;
+                    chair2.position.y = -500 / 2;
+                    chair2.position.x = 50 / 2 - 250;
+                    addItem(tableKitchen2, chair2);
+
+                    let chair3 = createChair();
+                    chair3.position.y = -500 / 2;
+                    chair3.position.z = 500;
+                    addItem(tableKitchen2, chair3);
                 }
             }
         }
@@ -543,6 +560,43 @@
         room.rotation.y = -Math.PI / 18 * 37.5;
 
         scene.add(room);
+    }
+
+    function createChair() {
+        let width = 500;
+        let height = 500;
+        let chair1 = new THREE.Mesh(new THREE.BoxGeometry(width, 50, width), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+        let spin = new THREE.Mesh(new THREE.BoxGeometry(width, 500, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+        spin.position.y = -height / 2 + 500;
+        spin.position.x = 0;
+        spin.position.z = width / 2 - 25;
+        addItem(chair1, spin);
+
+        let leg1 = new THREE.Mesh(new THREE.BoxGeometry(50, height, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+        leg1.position.y = -height / 2;
+        leg1.position.x = width / 2 - 45;
+        leg1.position.z = width / 2 - 45;
+        addItem(chair1, leg1);
+
+        let leg2 = new THREE.Mesh(new THREE.BoxGeometry(50, height, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+        leg2.position.y = -height / 2;
+        leg2.position.x = -width / 2 + 45;
+        leg2.position.z = -width / 2 + 45;
+        addItem(chair1, leg2);
+
+        let leg3 = new THREE.Mesh(new THREE.BoxGeometry(50, height, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+        leg3.position.y = -height / 2;
+        leg3.position.x = -width / 2 + 45;
+        leg3.position.z = width / 2 - 45;
+        addItem(chair1, leg3);
+
+        let leg4 = new THREE.Mesh(new THREE.BoxGeometry(50, height, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+        leg4.position.y = -height / 2;
+        leg4.position.x = width / 2 - 45;
+        leg4.position.z = -width / 2 + 45;
+        addItem(chair1, leg4);
+
+        return chair1;
     }
 
     function addItem(parent, child) {
