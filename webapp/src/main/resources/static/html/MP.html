@@ -385,7 +385,7 @@
 
                 let blackBox2 = new THREE.Mesh(new THREE.BoxGeometry(3000, 20, 9000), new THREE.MeshBasicMaterial({color: 0x000000}));
                 blackBox2.position.y = -height / 2 + 10;
-                blackBox2.position.x = - 555 - 3000 / 2 - 320;
+                blackBox2.position.x = -555 - 3000 / 2 - 320;
                 blackBox2.position.z = -9000 / 2 - 2600;
                 addItem(wareHauseOrigin, blackBox2);
 
@@ -395,7 +395,7 @@
                 addItem(enterDoorOrigin, enterDoor);
 
                 let enterWallTop = new THREE.Mesh(new THREE.BoxGeometry(300, height - 2093 + 10, 1000), wallMat);
-                enterWallTop.position.y = -height / 2 + height - (height - 2093 ) /2;
+                enterWallTop.position.y = -height / 2 + height - (height - 2093) / 2;
                 enterWallTop.position.x = -2082 - 150;
                 enterWallTop.position.z = -(1090) - 1000 / 2;
                 addItem(wareHauseOrigin, enterWallTop);
@@ -500,7 +500,6 @@
 
         {
             let kitchenOrigin = new THREE.Object3D();
-            // let kitchenOrigin = new THREE.Mesh(new THREE.BoxGeometry(10, height * 2, 10), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
             kitchenOrigin.position.z = wallWentWidth;
             kitchenOrigin.position.x = 100;
             addItem(origin, kitchenOrigin);
@@ -522,20 +521,21 @@
             // addItem(kitchenOrigin, botKitchen);
 
             {
-                // let freeze2 = new THREE.Mesh(new THREE.BoxGeometry(600, height, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
-                // freeze2.position.x = 600 / 2;
-                // freeze2.position.z = 600 / 2 + 3904 - 1200;
-                // addItem(kitchenOrigin, freeze2);
-
                 let freeze3 = new THREE.Mesh(new THREE.BoxGeometry(600, height, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 freeze3.position.x = 600 / 2 + 1765;
                 freeze3.position.z = 600 / 2 - 513;
                 addItem(kitchenOrigin, freeze3);
 
-                let freeze4 = new THREE.Mesh(new THREE.BoxGeometry(600, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+                let freeze4 = new THREE.Mesh(new THREE.BoxGeometry(600, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide, wireframe: true}));
                 freeze4.position.x = 600 / 2 + 1765 + 600;
                 freeze4.position.z = 600 / 2 - 513;
                 addItem(kitchenOrigin, freeze4);
+
+                let heater = new THREE.Mesh(new THREE.BoxGeometry(500, 900, 300), new THREE.MeshStandardMaterial({color: 0xE643E3, side: THREE.DoubleSide, wireframe: false}));
+                heater.position.y = height / 2 - 900 / 2 - 100;
+                heater.position.x = 600 / 2 + 1765 + 600;
+                heater.position.z = 300 / 2 - 513;
+                addItem(kitchenOrigin, heater);
 
                 let freeze5 = new THREE.Mesh(new THREE.BoxGeometry(250, height - 10, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 freeze5.position.x = 250 / 2 + 1765 + 1200;
