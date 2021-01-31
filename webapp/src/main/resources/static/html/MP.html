@@ -141,6 +141,7 @@
         // textureFlor.repeat.set(3, 3);
         // let wallMidSize = 160 + 600 + 600 + leftOffset + 3;
         let wallMat = new THREE.MeshStandardMaterial({color: 0x777777, side: THREE.DoubleSide, wireframe: wireframe});
+        let doorMat = new THREE.MeshStandardMaterial({color: 0x998C6D, side: THREE.DoubleSide, wireframe: wireframe});
         let windowMat = new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true});
         let wallWentLength = 1765 + 100;
         let wallWentWidth = 513 + 120;
@@ -165,22 +166,28 @@
         wallCenter2.position.z = -360 - 300 / 2;
         addItem(origin, wallCenter2);
 
-        let wallCenter3 = new THREE.Mesh(new THREE.BoxGeometry(100, height - 2075, 914), wallMat);
-        wallCenter3.position.y = height / 2 - (height - 2075) / 2;
-        wallCenter3.position.x = 280 - 100 / 2;
-        wallCenter3.position.z = -360 - 300 - 914 / 2;
-        addItem(origin, wallCenter3);
+        let sleepRoom1DoorOrigin = new THREE.Object3D();
+        sleepRoom1DoorOrigin.position.x = 280 - 100 / 2;
+        sleepRoom1DoorOrigin.position.z = -360 - 300;
+        sleepRoom1DoorOrigin.rotation.y = Math.PI / 180 * -80;
+        addItem(origin, sleepRoom1DoorOrigin);
+        let sleepRoom1Door = new THREE.Mesh(new THREE.BoxGeometry(50, height, 914), doorMat);
+        sleepRoom1Door.position.z = -914 / 2;
+        addItem(sleepRoom1DoorOrigin, sleepRoom1Door);
 
         let wallRoom1 = new THREE.Mesh(new THREE.BoxGeometry(105, height, 100), wallMat);
         wallRoom1.position.x = 280 - 105 - 100 / 2;
         wallRoom1.position.z = -360 - 300 - 914 - 100 - 100 / 2;
         addItem(origin, wallRoom1);
 
-        let wallRoom2 = new THREE.Mesh(new THREE.BoxGeometry(904, height - 2075, 100), wallMat);
-        wallRoom2.position.y = height / 2 - (height - 2075) / 2;
-        wallRoom2.position.x = 280 - 105 - 100 - 904 / 2;
-        wallRoom2.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2;
-        addItem(origin, wallRoom2);
+        let sleepRoom1DoorOrigin1 = new THREE.Object3D();
+        sleepRoom1DoorOrigin1.position.x = 280 - 105 - 100;
+        sleepRoom1DoorOrigin1.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2;
+        sleepRoom1DoorOrigin1.rotation.y = Math.PI / 180 * -80;
+        addItem(origin, sleepRoom1DoorOrigin1);
+        let wallRoom2 = new THREE.Mesh(new THREE.BoxGeometry(904, height, 50), doorMat);
+        wallRoom2.position.x = -904 / 2;
+        addItem(sleepRoom1DoorOrigin1, wallRoom2);
 
         let wallRoom3 = new THREE.Mesh(new THREE.BoxGeometry(400, height, 100), wallMat);
         wallRoom3.position.x = 280 - 105 - 100 - 904 - 400 / 2;
@@ -192,11 +199,14 @@
         wallRoom4.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 100) / 2;
         addItem(origin, wallRoom4);
 
-        let wallRoom5 = new THREE.Mesh(new THREE.BoxGeometry(100, height - 2075, 818), wallMat);
-        wallRoom5.position.y = height / 2 - (height - 2075) / 2;
-        wallRoom5.position.x = 280 - 105 - 100 - 904 - 400 + 100 / 2;
-        wallRoom5.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 50) + 818 / 2;
-        addItem(origin, wallRoom5);
+        let bathBigDoorOrigin = new THREE.Object3D();
+        bathBigDoorOrigin.position.x = 280 - 105 - 100 - 904 - 400 + 100 / 2;
+        bathBigDoorOrigin.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 50) + 818;
+        bathBigDoorOrigin.rotation.y = Math.PI / 180 * 155;
+        addItem(origin, bathBigDoorOrigin);
+        let wallRoom5 = new THREE.Mesh(new THREE.BoxGeometry(50, height, 818), doorMat);
+        wallRoom5.position.z = 818 / 2;
+        addItem(bathBigDoorOrigin, wallRoom5);
 
         {
             let bathOrigin = new THREE.Object3D();
@@ -300,7 +310,6 @@
         wallLeft.position.z = 120 / 2;
         addItem(origin, wallLeft);
 
-
         // let wallBot2 = new THREE.Mesh(new THREE.BoxGeometry(100, height - 2075, 913), wallMat);
         // wallBot2.position.y = height / 2 - (height - 2075) / 2;
         // wallBot2.position.x = 100 / 2;
@@ -322,11 +331,14 @@
         wallBotSmall1.position.z = wallWentWidth + 1545 + 913 + 85 + 100 / 2;
         addItem(origin, wallBotSmall1);
 
-        let wallBotSmall12 = new THREE.Mesh(new THREE.BoxGeometry(819, height - 2075, 100), wallMat);
-        wallBotSmall12.position.y = height / 2 - (height - 2075) / 2;
-        wallBotSmall12.position.x = 100 - 645 - 120 - 440 - 819 / 2;
-        wallBotSmall12.position.z = wallWentWidth + 1545 + 913 + 85 + 100 / 2;
-        addItem(origin, wallBotSmall12);
+        let bathSmallDoorOrigin = new THREE.Object3D();
+        bathSmallDoorOrigin.position.x = 100 - 645 - 120 - 440;
+        bathSmallDoorOrigin.position.z = wallWentWidth + 1545 + 913 + 85 + 100 / 2;
+        bathSmallDoorOrigin.rotation.y = Math.PI / 180 * -10;
+        addItem(origin, bathSmallDoorOrigin);
+        let wallBotSmall12 = new THREE.Mesh(new THREE.BoxGeometry(819, height, 50), doorMat);
+        wallBotSmall12.position.x = -819 / 2;
+        addItem(bathSmallDoorOrigin, wallBotSmall12);
 
         let wallBotSmall13 = new THREE.Mesh(new THREE.BoxGeometry(635, height, 100), wallMat);
         wallBotSmall13.position.x = 100 - 645 - 120 - 440 - 819 - 635 / 2;
