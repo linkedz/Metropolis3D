@@ -442,6 +442,12 @@
         wallWindow1.position.z = -300 / 2;
         addItem(wallWindow1Origin, wallWindow1);
 
+        let blackBox = new THREE.Mesh(new THREE.BoxGeometry(14000, 20, 5000), new THREE.MeshBasicMaterial({color: 0x000000}));
+        blackBox.position.y = -height / 2 + 10;
+        blackBox.position.x = -14000 / 2 + 1000;
+        blackBox.position.z = -5000 / 2 - 300;
+        addItem(wallWindow1Origin, blackBox);
+
         {
             let windowKitchen = new THREE.Mesh(new THREE.BoxGeometry(2871, height, 50), windowMat);
             windowKitchen.position.x = -685 - 2871 / 2;
