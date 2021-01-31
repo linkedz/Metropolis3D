@@ -140,7 +140,7 @@
         // textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
         // textureFlor.repeat.set(3, 3);
         // let wallMidSize = 160 + 600 + 600 + leftOffset + 3;
-        let wallMat = new THREE.MeshStandardMaterial({color: 0xB2A7A1, side: THREE.DoubleSide, wireframe: wireframe});
+        let wallMat = new THREE.MeshStandardMaterial({color: 0xB2A7A1, side: THREE.DoubleSide, wireframe: false});
         let doorMat = new THREE.MeshStandardMaterial({color: 0x998C6D, side: THREE.DoubleSide, wireframe: wireframe});
         let windowMat = new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true});
         let wallWentLength = 1765 + 100;
@@ -249,11 +249,6 @@
         wallRoom7.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 50) + 818 + 770 - 100 / 2;
         addItem(origin, wallRoom7);
 
-        let wallRoom8 = new THREE.Mesh(new THREE.BoxGeometry(300, height, 2507), wallMat);
-        wallRoom8.position.x = 280 - 105 - 100 - 904 - 400 + 100 / 2 - 3541 + 50 + 300 / 2;
-        wallRoom8.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 50) + 818 + 770 + 2507 / 2;
-        addItem(origin, wallRoom8);
-
         let wallRoom9 = new THREE.Mesh(new THREE.BoxGeometry(1900, height, 120), wallMat);
         wallRoom9.position.x = 280 - 105 - 100 - 904 - 400 - 1900 / 2;
         wallRoom9.position.z = -360 - 300 - 914 - 100 - 100 + 100 / 2 + (856 + 1250 + 100) / 2;
@@ -304,7 +299,6 @@
         wallCenter7.position.z = -360 - 300 - 914 - 3031 - (250 + 1267) + 350 / 2;
         addItem(origin, wallCenter7);
 
-
         let wallLeft = new THREE.Mesh(new THREE.BoxGeometry(1510, height, 120), wallMat);
         wallLeft.position.x = wallWentLength + 1510 / 2;
         wallLeft.position.z = 120 / 2;
@@ -354,6 +348,36 @@
         wallSmallBathMini.position.x = 100 - 645 - 120 - 440 - 819 - 635 + 120 / 2;
         wallSmallBathMini.position.z = wallWentWidth + 1545 + 913 + 85 + 100 + 445 / 2;
         addItem(origin, wallSmallBathMini);
+        {
+            let wareHauseOrigin = new THREE.Object3D();
+            // let wareHauseOrigin = new THREE.Mesh(new THREE.BoxGeometry(10, 6000, 10), new THREE.MeshStandardMaterial({color: 'green', side: THREE.DoubleSide}));
+            wareHauseOrigin.position.x = 100 - 645 - 120 - 440 - 819 - 635;
+            wareHauseOrigin.position.z = wallWentWidth + 1545 + 913 + 85 + 100 + 800 / 2 + 445 + 800 / 2;
+            addItem(origin, wareHauseOrigin);
+
+            let storage = new THREE.Mesh(new THREE.BoxGeometry(2082, height, 800), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+            storage.position.x = -2082 / 2;
+            storage.position.z = -800 / 2;
+            addItem(wareHauseOrigin, storage);
+
+            {
+                let enterWall = new THREE.Mesh(new THREE.BoxGeometry(300, height, 425 + 100), wallMat);
+                enterWall.position.x = -2082 - 150;
+                enterWall.position.z = -(1090) - 1000 - (525 / 2);
+                addItem(wareHauseOrigin, enterWall);
+
+                let enterWallTop = new THREE.Mesh(new THREE.BoxGeometry(300, height - 2093 + 10, 1000), wallMat);
+                enterWallTop.position.y = -height / 2 + height - (height - 2093 ) /2;
+                enterWallTop.position.x = -2082 - 150;
+                enterWallTop.position.z = -(1090) - 1000 / 2;
+                addItem(wareHauseOrigin, enterWallTop);
+
+                let enterWallRight = new THREE.Mesh(new THREE.BoxGeometry(300, height, 1090 + 300), wallMat);
+                enterWallRight.position.x = -2082 - 150;
+                enterWallRight.position.z = -(1090 - 300) / 2;
+                addItem(wareHauseOrigin, enterWallRight);
+            }
+        }
         {
             let smallBathOrigin = new THREE.Object3D();
             smallBathOrigin.position.x = 100 - 645 - 120 - 440 - 819 - 635 + 400;
@@ -609,8 +633,6 @@
             table2.position.y = -height / 2 + 400;
             table2.position.z = -5400;
             table2.position.x = -150 + 3110 + 900;
-            // table2.rotation.y = Math.PI / 180 * 255.5;
-            // table2.rotation.y = Math.PI / 180 * 90;
             addItem(sleepRoom1, table2);
 
             let roomTV = new THREE.Mesh(new THREE.BoxGeometry(1100, 800, 30), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
@@ -646,15 +668,21 @@
             table2.position.z = -4760 + 140;
             table2.position.x = -150 + 3110;
             addItem(sleepRoom2, table2);
+
+            let roomTV2 = new THREE.Mesh(new THREE.BoxGeometry(30, 800, 1100), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
+            roomTV2.position.y = -height / 2 + 1300;
+            roomTV2.position.z = -2900;
+            roomTV2.position.x = -150 + 3110 + 350;
+            addItem(sleepRoom2, roomTV2);
         }
 
         let textureFlor = new THREE.TextureLoader().load('/img/floor.jpg');
         textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
         textureFlor.repeat.set(3, 3);
-        let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(9500, 11000, 10, 10), new THREE.MeshStandardMaterial({map: textureFlor, side: THREE.DoubleSide, wireframe: wireframe}));
+        let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(10200, 11000, 10, 10), new THREE.MeshStandardMaterial({map: textureFlor, side: THREE.DoubleSide, wireframe: wireframe}));
         floor.rotation.x = -Math.PI / 2;
-        floor.position.z = -500;
-        floor.position.x = 350;
+        floor.position.z = -600;
+        floor.position.x = 150;
 
         if (visibility["floor"] === 1) {
             addItem(room, floor);
