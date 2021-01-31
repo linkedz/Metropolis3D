@@ -579,7 +579,6 @@
             }
         }
         {
-            // let sleepRoom1 = new THREE.Mesh(new THREE.BoxGeometry(10, height * 2, 10), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
             let sleepRoom1 = new THREE.Object3D();
             sleepRoom1.position.x = 280;
             addItem(origin, sleepRoom1);
@@ -588,9 +587,40 @@
             storage.position.x = 3310 / 2;
             storage.position.z = -600 / 2;
             addItem(sleepRoom1, storage);
+
+            let bed = new THREE.Mesh(new THREE.BoxGeometry(2000, 400, 1650), new THREE.MeshStandardMaterial({color: 0xEBEB34, side: THREE.DoubleSide}));
+            bed.position.y = -height / 2 + 400 / 2;
+            bed.position.x = 2000 / 2;
+            bed.position.z = -3500;
+            addItem(sleepRoom1, bed);
+
+            let bedTop = new THREE.Mesh(new THREE.BoxGeometry(100, 800, 2200), new THREE.MeshStandardMaterial({color: 0xEBEB34, side: THREE.DoubleSide}));
+            bedTop.position.y = 200;
+            bedTop.position.x = -1000;
+            addItem(bed, bedTop);
+
+            let table1 = new THREE.Mesh(new THREE.BoxGeometry(700, 800, 1100), new THREE.MeshStandardMaterial({color: 0xA18132, side: THREE.DoubleSide}));
+            table1.position.y = -height / 2 + 400;
+            table1.position.z = -4760 - 500;
+            table1.position.x = 700 / 2 + 140;
+            addItem(sleepRoom1, table1);
+
+            let table2 = new THREE.Mesh(new THREE.BoxGeometry(1100, 800, 700), new THREE.MeshStandardMaterial({color: 0xA18132, side: THREE.DoubleSide}));
+            table2.position.y = -height / 2 + 400;
+            table2.position.z = -5400;
+            table2.position.x = -150 + 3110 + 900;
+            // table2.rotation.y = Math.PI / 180 * 255.5;
+            // table2.rotation.y = Math.PI / 180 * 90;
+            addItem(sleepRoom1, table2);
+
+            let roomTV = new THREE.Mesh(new THREE.BoxGeometry(1100, 800, 30), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
+            roomTV.position.y = -height / 2 + 1300;
+            roomTV.position.z = -4900;
+            roomTV.position.x = -150 + 3110 + 1390;
+            roomTV.rotation.y = Math.PI / 180 * 255.5;
+            addItem(sleepRoom1, roomTV);
         }
         {
-            // let sleepRoom2 = new THREE.Mesh(new THREE.BoxGeometry(10, height * 2, 10), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
             let sleepRoom2 = new THREE.Object3D();
             sleepRoom2.position.x = 280 - 105 - 100 - 904 - 400 - 1900;
             sleepRoom2.position.z = -360 - 300 - 914 - 100 - 100 + 1250 - 50 - 100;
@@ -610,23 +640,6 @@
             storageDoorOrigin.position.x = 0;
             addItem(sleepRoom2, storageDoorOrigin);
             addItem(storageDoorOrigin, storageDoor);
-
-            let bed = new THREE.Mesh(new THREE.BoxGeometry(2000, 400, 1650), new THREE.MeshStandardMaterial({color: 0xEBEB34, side: THREE.DoubleSide}));
-            bed.position.y = -height / 2 + 400 / 2;
-            bed.position.x = 2000 / 2;
-            bed.position.z = -3000;
-            addItem(sleepRoom2, bed);
-
-            let bedTop = new THREE.Mesh(new THREE.BoxGeometry(100, 800, 2200), new THREE.MeshStandardMaterial({color: 0xEBEB34, side: THREE.DoubleSide}));
-            bedTop.position.y = 200;
-            bedTop.position.x = -1000;
-            addItem(bed, bedTop);
-
-            let table1 = new THREE.Mesh(new THREE.BoxGeometry(700, 800, 1100), new THREE.MeshStandardMaterial({color: 0xA18132, side: THREE.DoubleSide}));
-            table1.position.y = -height / 2 + 400;
-            table1.position.z = -4760;
-            table1.position.x = 700 / 2;
-            addItem(sleepRoom2, table1);
 
             let table2 = new THREE.Mesh(new THREE.BoxGeometry(700, 800, 1100), new THREE.MeshStandardMaterial({color: 0xA18132, side: THREE.DoubleSide}));
             table2.position.y = -height / 2 + 400;
