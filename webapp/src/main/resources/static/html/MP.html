@@ -377,6 +377,12 @@
                 enterDoorOrigin.rotation.y = Math.PI / 180 * 170;
                 addItem(wareHauseOrigin, enterDoorOrigin);
 
+                let blackBox2 = new THREE.Mesh(new THREE.BoxGeometry(3000, 20, 9000), new THREE.MeshBasicMaterial({color: 0x000000}));
+                blackBox2.position.y = -height / 2 + 10;
+                blackBox2.position.x = - 555 - 3000 / 2 - 320;
+                blackBox2.position.z = -9000 / 2 - 2600;
+                addItem(wareHauseOrigin, blackBox2);
+
                 let enterDoor = new THREE.Mesh(new THREE.BoxGeometry(50, 2093, 1000), enterDoorMat);
                 enterDoor.position.y = -height / 2 + 2093 / 2;
                 enterDoor.position.z = -914 / 2;
@@ -701,9 +707,9 @@
         let textureFlor = new THREE.TextureLoader().load('/img/floor.jpg');
         textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
         textureFlor.repeat.set(3, 3);
-        let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(10200, 11000, 10, 10), new THREE.MeshStandardMaterial({map: textureFlor, side: THREE.DoubleSide, wireframe: wireframe}));
+        let floor = new THREE.Mesh(new THREE.PlaneBufferGeometry(10200 - 150, 11000, 10, 10), new THREE.MeshStandardMaterial({map: textureFlor, side: THREE.DoubleSide, wireframe: wireframe}));
         floor.rotation.x = -Math.PI / 2;
-        floor.position.z = -600;
+        floor.position.z = -680;
         floor.position.x = 150;
 
         if (visibility["floor"] === 1) {
