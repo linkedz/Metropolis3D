@@ -32,6 +32,7 @@
     var wireframe = false;
     var transparent = false;
     var opacity = 0.5;
+    var createObjects = true;
     var visibility = {
         "kargo": 1,
         "fridge": 1,
@@ -144,7 +145,7 @@
         doorFlor.wrapS = doorFlor.wrapT = THREE.RepeatWrapping;
         doorFlor.repeat.set(1, 1);
 
-        let wallMat = new THREE.MeshStandardMaterial({color: 0xB2A7A1, side: THREE.DoubleSide, wireframe: false});
+        let wallMat = new THREE.MeshStandardMaterial({color: 0xB2A7A1, side: THREE.DoubleSide, wireframe: false, transparent: false, opacity: 0.6});
         let doorMat = new THREE.MeshStandardMaterial({color: 0x998C6D, side: THREE.DoubleSide, wireframe: wireframe});
         let enterDoorMat = new THREE.MeshStandardMaterial({color: 0xFFFFFF, side: THREE.DoubleSide, wireframe: wireframe, map: doorFlor});
         let windowMat = new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true});
@@ -213,7 +214,7 @@
         wallRoom5.position.z = 818 / 2;
         addItem(bathBigDoorOrigin, wallRoom5);
 
-        {
+        if (createObjects) {
             let bathOrigin = new THREE.Object3D();
             bathOrigin.position.x = 280 - 105 - 100 - 904 - 400;
             bathOrigin.position.z = -360 - 300 - 914 - 100 - 100 + 1250 - 50 - 500;
@@ -371,7 +372,7 @@
         wallSmallBathMini.position.x = 100 - 645 - 120 - 440 - 819 - 635 + 120 / 2;
         wallSmallBathMini.position.z = wallWentWidth + 1545 + 913 + 85 + 100 + 445 / 2;
         addItem(origin, wallSmallBathMini);
-        {
+        if (createObjects) {
             let wareHauseOrigin = new THREE.Object3D();
             // let wareHauseOrigin = new THREE.Mesh(new THREE.BoxGeometry(10, 6000, 10), new THREE.MeshStandardMaterial({color: 'green', side: THREE.DoubleSide}));
             wareHauseOrigin.position.x = 100 - 645 - 120 - 440 - 819 - 635;
@@ -418,7 +419,7 @@
                 addItem(wareHauseOrigin, enterWallRight);
             }
         }
-        {
+        if (createObjects) {
             let smallBathOrigin = new THREE.Object3D();
             smallBathOrigin.position.x = 100 - 645 - 120 - 440 - 819 - 635 + 400;
             smallBathOrigin.position.z = wallWentWidth + 1545 + 913 + 85 + 100 + 800 / 2 + 445 + 800 / 2;
@@ -522,7 +523,7 @@
         wallWindow7.position.z = -300 / 2;
         addItem(wallWindow1Origin, wallWindow7);
 
-        {
+        if (createObjects) {
             let kitchenOrigin = new THREE.Object3D();
             kitchenOrigin.position.z = wallWentWidth;
             kitchenOrigin.position.x = 100;
@@ -561,6 +562,14 @@
                 heater.position.z = 300 / 2 - 513;
                 addItem(kitchenOrigin, heater);
 
+                let microOwen = new THREE.Mesh(new THREE.BoxGeometry(600, 350, 500), new THREE.MeshStandardMaterial({color: 0x777777, side: THREE.DoubleSide}));
+                microOwen.position.y = height / 2 - 1200 + 350 / 2 + 30 - 400;
+                microOwen.position.x = 600 / 2 + 1765 + 600;
+                microOwen.position.z = -250 + 125;
+                // microOwen.position.x = 2116 / 2;
+                // microOwen.position.z = 3904 - 350;
+                addItem(kitchenOrigin, microOwen);
+
                 let freeze5 = new THREE.Mesh(new THREE.BoxGeometry(250, height - 10, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 freeze5.position.x = 250 / 2 + 1765 + 1200;
                 freeze5.position.z = 600 / 2 - 513;
@@ -590,12 +599,6 @@
                 topKitchen2.position.z = 3904 - 350 / 2;
                 addItem(kitchenOrigin, topKitchen2);
 
-                let microOwen = new THREE.Mesh(new THREE.BoxGeometry(600, 350, 50), new THREE.MeshStandardMaterial({color: 0x777777, side: THREE.DoubleSide}));
-                microOwen.position.y = height / 2 - 1200 + 350 / 2 + 30;
-                microOwen.position.x = 2116 / 2;
-                microOwen.position.z = 3904 - 350;
-                addItem(kitchenOrigin, microOwen);
-
                 let wingKitchen = new THREE.Mesh(new THREE.BoxGeometry(1300, 50, 500), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 wingKitchen.position.y = -height / 2 + 900 - 50 / 2;
                 wingKitchen.position.x = 1300 / 2 - 1300;
@@ -603,10 +606,23 @@
                 addItem(wallWindow1Origin, wingKitchen);
 
                 {
+                    let kitchenTV = new THREE.Mesh(new THREE.BoxGeometry(1100, 800, 30), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
+                    // kitchenTV.position.y = -height / 2 + 1300;
+                    // kitchenTV.position.z = -4900;
+                    // kitchenTV.position.x = -150 + 3110 + 1390;
+
+                    kitchenTV.position.y = -height / 2 + 1300
+                    kitchenTV.position.x = 1600 / 2 + 30 + 300;
+                    kitchenTV.position.z = 15;
+                    // kitchenTV.rotation.y = Math.PI / 180 * 255.5;
+                    addItem(kitchenOrigin, kitchenTV);
+                }
+                {
                     let sofaKitchen = new THREE.Mesh(new THREE.BoxGeometry(1600, 500, 500), new THREE.MeshStandardMaterial({color: 0xd4a46e, side: THREE.DoubleSide}));
+                    sofaKitchen.rotation.y = Math.PI;
                     sofaKitchen.position.y = -height / 2 + 500 / 2;
-                    sofaKitchen.position.x = 1600 / 2 + 50;
-                    sofaKitchen.position.z = 500 / 2;
+                    sofaKitchen.position.x = 1600 / 2 + 30 + 300;
+                    sofaKitchen.position.z = 850 + 500 / 2 + 370;
                     addItem(kitchenOrigin, sofaKitchen);
 
                     let sofaKitchenTop = new THREE.Mesh(new THREE.BoxGeometry(1600, 400, 100), new THREE.MeshStandardMaterial({color: 0xd4a46e, side: THREE.DoubleSide}));
@@ -619,8 +635,8 @@
                     let tableKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(700, 50, 1200), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
                     tableKitchen2.rotation.y = Math.PI / 2;
                     tableKitchen2.position.y = -height / 2 + 800 - 50 / 2;
-                    tableKitchen2.position.x = 700 / 2 + 400 + 75;
-                    tableKitchen2.position.z = 1200 / 2 + 400;
+                    tableKitchen2.position.x = 700 / 2 + 400 + 75 + 300;
+                    tableKitchen2.position.z = 1200 / 2 + 1500;
                     addItem(kitchenOrigin, tableKitchen2);
 
                     let leg1 = new THREE.Mesh(new THREE.BoxGeometry(50, 760, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
@@ -666,7 +682,7 @@
                 }
             }
         }
-        {
+        if (createObjects) {
             let sleepRoom1 = new THREE.Object3D();
             sleepRoom1.position.x = 280;
             addItem(origin, sleepRoom1);
@@ -706,7 +722,7 @@
             roomTV.rotation.y = Math.PI / 180 * 255.5;
             addItem(sleepRoom1, roomTV);
         }
-        {
+        if (createObjects) {
             let sleepRoom2 = new THREE.Object3D();
             sleepRoom2.position.x = 280 - 105 - 100 - 904 - 400 - 1900;
             sleepRoom2.position.z = -360 - 300 - 914 - 100 - 100 + 1250 - 50 - 100;
@@ -751,6 +767,19 @@
             cooler1.position.x = -150 + 3110 + 350 + 150;
             addItem(sleepRoom2, cooler1);
         }
+
+        // let texturePlan = new THREE.TextureLoader().load('/img/mika.jpg');
+        // // texturePlan.wrapS = texturePlan.wrapT = THREE.RepeatWrapping;
+        // texturePlan.repeat.set(1, 1);
+        // let plan = new THREE.Mesh(new THREE.PlaneBufferGeometry(2035, 1725, 10, 10), new THREE.MeshBasicMaterial({map: texturePlan, side: THREE.DoubleSide, wireframe: wireframe}));
+        // plan.rotation.x = -Math.PI / 2;
+        // plan.rotation.z = -Math.PI / 2;
+        // plan.position.y = height - 200;
+        // plan.position.z = -450;
+        // plan.position.x = 310;
+        // plan.scale.x = plan.scale.y = plan.scale.z = 6.29;
+
+        // addItem(room, plan);
 
         let textureFlor = new THREE.TextureLoader().load('/img/floor.jpg');
         textureFlor.wrapS = textureFlor.wrapT = THREE.RepeatWrapping;
