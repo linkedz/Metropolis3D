@@ -599,11 +599,11 @@
                 topKitchen2.position.z = 3904 - 350 / 2;
                 addItem(kitchenOrigin, topKitchen2);
 
-                let wingKitchen = new THREE.Mesh(new THREE.BoxGeometry(1300, 50, 500), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
-                wingKitchen.position.y = -height / 2 + 900 - 50 / 2;
-                wingKitchen.position.x = 1300 / 2 - 1300;
-                wingKitchen.position.z = 500 / 2 - 200;
-                addItem(wallWindow1Origin, wingKitchen);
+                // let wingKitchen = new THREE.Mesh(new THREE.BoxGeometry(1300, 50, 500), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+                // wingKitchen.position.y = -height / 2 + 900 - 50 / 2;
+                // wingKitchen.position.x = 1300 / 2 - 1300;
+                // wingKitchen.position.z = 500 / 2 - 200;
+                // addItem(wallWindow1Origin, wingKitchen);
 
                 {
                     let kitchenTV = new THREE.Mesh(new THREE.BoxGeometry(1100, 800, 30), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
@@ -632,33 +632,33 @@
                     addItem(sofaKitchen, sofaKitchenTop);
                 }
                 {
-                    let tableKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(700, 50, 1200), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+                    let tableKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(700, 50, 1200), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                     tableKitchen2.rotation.y = Math.PI / 2;
-                    tableKitchen2.position.y = -height / 2 + 800 - 50 / 2;
-                    tableKitchen2.position.x = 700 / 2 + 400 + 75 + 300;
+                    tableKitchen2.position.y = -height / 2 + 900 - 50 / 2;
+                    tableKitchen2.position.x = 900 / 2 + 400 + 75 + 300;
                     tableKitchen2.position.z = 1200 / 2 + 1500;
                     addItem(kitchenOrigin, tableKitchen2);
 
-                    let leg1 = new THREE.Mesh(new THREE.BoxGeometry(50, 760, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
-                    leg1.position.y = -760 / 2;
+                    let leg1 = new THREE.Mesh(new THREE.BoxGeometry(50, 910, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+                    leg1.position.y = -910 / 2;
                     leg1.position.x = 700 / 2 - 45;
                     leg1.position.z = 1200 / 2 - 45;
                     addItem(tableKitchen2, leg1);
 
-                    let leg2 = new THREE.Mesh(new THREE.BoxGeometry(50, 760, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
-                    leg2.position.y = -760 / 2;
+                    let leg2 = new THREE.Mesh(new THREE.BoxGeometry(50, 910, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+                    leg2.position.y = -910 / 2;
                     leg2.position.x = -700 / 2 + 45;
                     leg2.position.z = -1200 / 2 + 45;
                     addItem(tableKitchen2, leg2);
 
-                    let leg3 = new THREE.Mesh(new THREE.BoxGeometry(50, 760, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
-                    leg3.position.y = -760 / 2;
+                    let leg3 = new THREE.Mesh(new THREE.BoxGeometry(50, 910, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+                    leg3.position.y = -910 / 2;
                     leg3.position.x = -700 / 2 + 45;
                     leg3.position.z = 1200 / 2 - 45;
                     addItem(tableKitchen2, leg3);
 
-                    let leg4 = new THREE.Mesh(new THREE.BoxGeometry(50, 760, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
-                    leg4.position.y = -760 / 2;
+                    let leg4 = new THREE.Mesh(new THREE.BoxGeometry(50, 910, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
+                    leg4.position.y = -910 / 2;
                     leg4.position.x = 700 / 2 - 45;
                     leg4.position.z = -1200 / 2 + 45;
                     addItem(tableKitchen2, leg4);
