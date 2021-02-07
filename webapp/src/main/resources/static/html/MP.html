@@ -76,7 +76,6 @@
 
     var objects = [];
     var controls;
-    var spotLight, lightHelper, shadowCameraHelper;
 
     init();
     animate();
@@ -106,19 +105,36 @@
         // light1.castShadow = true;
         // scene.add(light1);
 
-        spotLight = new THREE.SpotLight(0xffffff, 3);
-        spotLight.position.set(1000, 8000, 2000);
-        spotLight.angle = Math.PI / 4;
-        spotLight.penumbra = 0.4;
-        spotLight.decay = 1;
-        spotLight.distance = 14000;
+        {
+            var spotLight = new THREE.SpotLight(0xffffff, 0.9);
+            spotLight.position.set(1000, 8000, 2000);
+            spotLight.angle = Math.PI / 4;
+            spotLight.penumbra = 0.4;
+            spotLight.decay = 1;
+            spotLight.distance = 14000;
 
-        spotLight.castShadow = true;
-        spotLight.shadow.mapSize.width = 4096;
-        spotLight.shadow.mapSize.height = 4096;
-        spotLight.shadow.camera.near = 400;
-        spotLight.shadow.camera.far = 3000;
-        scene.add(spotLight);
+            spotLight.castShadow = true;
+            spotLight.shadow.mapSize.width = 4096;
+            spotLight.shadow.mapSize.height = 4096;
+            spotLight.shadow.camera.near = 400;
+            spotLight.shadow.camera.far = 3000;
+            scene.add(spotLight);
+        }
+        {
+            var spotLight2 = new THREE.SpotLight(0xffffff, 3);
+            spotLight2.position.set(2000, 4000, -3000);
+            spotLight2.angle = Math.PI / 180 * 60;
+            spotLight2.penumbra = 0.5;
+            spotLight2.decay = 1;
+            spotLight2.distance = 5000;
+
+            spotLight2.castShadow = true;
+            spotLight2.shadow.mapSize.width = 4096;
+            spotLight2.shadow.mapSize.height = 4096;
+            spotLight2.shadow.camera.near = 400;
+            spotLight2.shadow.camera.far = 3000;
+            scene.add(spotLight2);
+        }
 
         renderer = new THREE.WebGLRenderer({antialias: true});
         renderer.setPixelRatio(window.devicePixelRatio);
@@ -687,10 +703,33 @@
             sleepRoom1.position.x = 280;
             addItem(origin, sleepRoom1);
 
-            let storage = new THREE.Mesh(new THREE.BoxGeometry(3310, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
-            storage.position.x = 3310 / 2;
-            storage.position.z = -600 / 2;
-            addItem(sleepRoom1, storage);
+            {
+                /*3310*/
+                let storage1 = new THREE.Mesh(new THREE.BoxGeometry(599, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+                storage1.position.x = 599 / 2;
+                storage1.position.z = -600 / 2;
+                addItem(sleepRoom1, storage1);
+
+                let storage2 = new THREE.Mesh(new THREE.BoxGeometry(599, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+                storage2.position.x = 604 + 599 / 2;
+                storage2.position.z = -600 / 2;
+                addItem(sleepRoom1, storage2);
+
+                let storage3 = new THREE.Mesh(new THREE.BoxGeometry(599, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+                storage3.position.x = 604 * 2 + 599 / 2;
+                storage3.position.z = -600 / 2;
+                addItem(sleepRoom1, storage3);
+
+                let storage4 = new THREE.Mesh(new THREE.BoxGeometry(599, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+                storage4.position.x = 604 * 3+ 599 / 2;
+                storage4.position.z = -600 / 2;
+                addItem(sleepRoom1, storage4);
+
+                let storage5 = new THREE.Mesh(new THREE.BoxGeometry(850, height, 600), new THREE.MeshStandardMaterial({color: 0xBBBBBB, side: THREE.DoubleSide}));
+                storage5.position.x = 604 * 4 + 850 / 2;
+                storage5.position.z = -600 / 2;
+                addItem(sleepRoom1, storage5);
+            }
 
             let bed = new THREE.Mesh(new THREE.BoxGeometry(2000, 400, 1650), new THREE.MeshStandardMaterial({color: 0xEBEB34, side: THREE.DoubleSide}));
             bed.position.y = -height / 2 + 400 / 2;
@@ -718,9 +757,35 @@
             let roomTV = new THREE.Mesh(new THREE.BoxGeometry(1100, 800, 30), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
             roomTV.position.y = -height / 2 + 1300;
             roomTV.position.z = -4900;
-            roomTV.position.x = -150 + 3110 + 1390;
-            roomTV.rotation.y = Math.PI / 180 * 255.5;
+            roomTV.position.x = -420 + 3110 + 1390;
+            roomTV.rotation.y = Math.PI / 180 * 280.5;
             addItem(sleepRoom1, roomTV);
+
+            let roomTV_han = new THREE.Mesh(new THREE.BoxGeometry(300, 300, 30), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
+            roomTV_han.position.y = -height / 2 + 1300;
+            roomTV_han.position.z = -4900;
+            roomTV_han.position.x = -420 + 3110 + 1390;
+            roomTV_han.position.x = -150 + 3110 + 1390;
+            roomTV_han.rotation.y = Math.PI / 180 * 255.5;
+            addItem(sleepRoom1, roomTV_han);
+
+            let roomTV_handler = new THREE.Mesh(new THREE.BoxGeometry(400, 150, 20), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
+            // roomTV_handler.position.y = -height / 2 + 1300;
+            // roomTV_handler.position.z = -4900;
+            // roomTV_handler.position.x = -420 + 3110 + 1390;
+            roomTV_handler.rotation.y = Math.PI / 180 * 150;
+            roomTV_handler.position.z = -Math.sin(roomTV_handler.rotation.y) * 400 / 2;
+            roomTV_handler.position.x = Math.cos(roomTV_handler.rotation.y) * 400 / 2;
+            addItem(roomTV, roomTV_handler);
+
+            let roomTV_handler2 = new THREE.Mesh(new THREE.BoxGeometry(400, 150, 20), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
+            // roomTV_handler.position.y = -height / 2 + 1300;
+            // roomTV_handler.position.z = -4900;
+            // roomTV_handler.position.x = -420 + 3110 + 1390;
+            roomTV_handler2.rotation.y = Math.PI / 180 * 45;
+            roomTV_handler2.position.z = -Math.sin(roomTV_handler.rotation.y) * 400 / 2 + Math.sin(roomTV_handler2.rotation.y) * 200 + 110;
+            roomTV_handler2.position.x = Math.cos(roomTV_handler.rotation.y) * 400 / 2 + Math.cos(roomTV_handler2.rotation.y) * 200 + 90;
+            addItem(roomTV_handler, roomTV_handler2);
         }
         if (createObjects) {
             let sleepRoom2 = new THREE.Object3D();
@@ -802,7 +867,7 @@
 
     function createChair() {
         let width = 500;
-        let height = 500;
+        let height = 700;
         let chair1 = new THREE.Mesh(new THREE.BoxGeometry(width, 50, width), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
         let spin = new THREE.Mesh(new THREE.BoxGeometry(width, 500, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
         spin.position.y = -height / 2 + 500;
