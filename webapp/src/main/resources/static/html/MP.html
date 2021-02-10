@@ -468,21 +468,21 @@
 
             let showerSmall = new THREE.Mesh(new THREE.BoxGeometry(900, 50, 1240), new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide}));
             showerSmall.position.y = -height / 2 + 25;
-            showerSmall.position.x = 900 / 2 + 1250;
+            showerSmall.position.x = 900 / 2 + 1250 + 100;
             showerSmall.position.z = -1240 / 2;
             addItem(smallBathOrigin, showerSmall);
 
             let showerSmallWall = new THREE.Mesh(new THREE.BoxGeometry(20, 2000, 600), new THREE.MeshStandardMaterial({color: 'blue', side: THREE.DoubleSide, wireframe: true}));
             showerSmallWall.position.y = -height / 2 + 1000;
-            showerSmallWall.position.x = 900 / 2 + 1250 - 15 - 400;
+            showerSmallWall.position.x = 900 / 2 + 1250 - 15 - 400 + 100;
             showerSmallWall.position.z = -1240 / 2 - 600 / 2;
             addItem(smallBathOrigin, showerSmallWall);
         }
 
-        let wallShowerMoveable = new THREE.Mesh(new THREE.BoxGeometry(120, height, 1343 + 600), wallMat);
-        wallShowerMoveable.position.x = 100 - 645 - 120 / 2 + 645;
-        wallShowerMoveable.position.z = wallWentWidth + 1545 + 913 + 85 + (1343 - 600) / 2;
-        addItem(origin, wallShowerMoveable);
+        let wallShowerMoveableOrig = new THREE.Mesh(new THREE.BoxGeometry(120, height, 1343), wallMat);
+        wallShowerMoveableOrig.position.x = 100 - 645 - 120 / 2 + 645 + 100;
+        wallShowerMoveableOrig.position.z = wallWentWidth + 1545 + 913 + 85 + (1343) / 2;
+        addItem(origin, wallShowerMoveableOrig);
 
         let rightLength = 2761 + 120 + 1404 + 440 + 120 + 2082 + 150;
         let wallRight = new THREE.Mesh(new THREE.BoxGeometry(rightLength, height, 300), wallMat);
@@ -584,50 +584,85 @@
                 microOwen.position.z = -250 + 125;
                 // microOwen.position.x = 2116 / 2;
                 // microOwen.position.z = 3904 - 350;
-                addItem(kitchenOrigin, microOwen);
+                // addItem(kitchenOrigin, microOwen);
 
                 let freeze5 = new THREE.Mesh(new THREE.BoxGeometry(250, height - 10, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 freeze5.position.x = 250 / 2 + 1765 + 1200;
                 freeze5.position.z = 600 / 2 - 513;
                 addItem(kitchenOrigin, freeze5);
 
-                let botKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(2316, 900, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+                let botKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(2316 - 100, 900, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 botKitchen2.position.y = -height / 2 + 900 / 2;
-                botKitchen2.position.x = 2316 / 2;
+                botKitchen2.position.x = 2216 / 2 + 100;
                 botKitchen2.position.z = 600 / 2 + 3904 - 600;
                 addItem(kitchenOrigin, botKitchen2);
 
-                let topKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(2316, 1200, 350), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+                let topKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(2316 - 100, 1200, 350), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 topKitchen2.position.y = height / 2 - 1200 / 2;
-                topKitchen2.position.x = 2316 / 2;
-                topKitchen2.position.z = 3904 - 350 / 2;
+                topKitchen2.position.x = 2216 / 2 + 100;
+                topKitchen2.position.z = 3904 - 350 / 2 - 10;
                 addItem(kitchenOrigin, topKitchen2);
 
+                let case1 = true;
                 {
-                    let botKitchen3 = new THREE.Mesh(new THREE.BoxGeometry(600, 900, 1200 + 150), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+                    let botKitchen3 = new THREE.Mesh(new THREE.BoxGeometry(600, 900, 600 + 150), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                     botKitchen3.position.y = -height / 2 + 900 / 2;
                     botKitchen3.position.x = 600 / 2;
-                    botKitchen3.position.z = 600 / 2 + 3904 - (600 - 80) - 2116 / 2;
+                    botKitchen3.position.z = 600 / 2 + 3904 - (300 - 80) - 2116 / 2;
                     addItem(kitchenOrigin, botKitchen3);
 
-                    let topKitchen3 = new THREE.Mesh(new THREE.BoxGeometry(350, 1200, 1200 + 150 + 250), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+
+                    if (case1) {
+                        let botKitchenFreeze = new THREE.Mesh(new THREE.BoxGeometry(600, height, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+                        botKitchenFreeze.position.x = 600 / 2;
+                        botKitchenFreeze.position.z = 600 / 2 + 1950;
+                        // addItem(kitchenOrigin, botKitchenFreeze);
+
+                        let wallShowerMoveable = new THREE.Mesh(new THREE.BoxGeometry(100, height, 600), wallMat);
+                        wallShowerMoveable.position.x = 100 - 645 - 100 / 2 + 645;
+                        wallShowerMoveable.position.z = wallWentWidth + 1545 + 913 + 85 + (-600) / 2;
+                        // addItem(origin, wallShowerMoveable);
+
+                        let wallShowerMoveableNext = new THREE.Mesh(new THREE.BoxGeometry(700, height, 100), wallMat);
+                        wallShowerMoveableNext.position.x = 100 - 645 - 100 / 2 + 645 + 300;
+                        wallShowerMoveableNext.position.z = wallWentWidth + 1545 + 913 + 85 + (-600) / 2 - 350 + 10;
+                        // addItem(origin, wallShowerMoveableNext);
+                    } else {
+                        let botKitchenFreeze = new THREE.Mesh(new THREE.BoxGeometry(600, height, 600), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
+                        botKitchenFreeze.position.x = 600 / 2;
+                        botKitchenFreeze.position.z = 600 / 2;
+                        addItem(kitchenOrigin, botKitchenFreeze);
+
+                        let freezeWall = new THREE.Mesh(new THREE.BoxGeometry(100, height, 600), wallMat);
+                        freezeWall.position.x = -100 / 2;
+                        freezeWall.position.z = 600 / 2;
+                        addItem(kitchenOrigin, freezeWall);
+                    }
+
+                    let topKitchen3 = new THREE.Mesh(new THREE.BoxGeometry(350, 1200, 600 + 150 + 250), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                     topKitchen3.position.y = height / 2 - 1200 / 2;
-                    topKitchen3.position.x = 350 / 2;
-                    topKitchen3.position.z = 600 / 2 + 3904 - 400 - 2116 / 2;
+                    topKitchen3.position.x = 350 / 2 + 100;
+                    topKitchen3.position.z = 600 / 2 + 3904 - 100 - 2116 / 2;
                     addItem(kitchenOrigin, topKitchen3);
                 }
 
+                let washingKitchen = new THREE.Mesh(new THREE.BoxGeometry(560, 50, 560), new THREE.MeshStandardMaterial({color: 0x777777, side: THREE.DoubleSide}));
+                washingKitchen.position.y = -height / 2 + 900;
+                washingKitchen.position.x = 600 / 2;
+                washingKitchen.position.z = 600 / 2 + 3904 - 1200 - 50;
+                addItem(kitchenOrigin, washingKitchen);
+
                 let cookingKitchen = new THREE.Mesh(new THREE.BoxGeometry(560, 50, 560), new THREE.MeshStandardMaterial({color: 0x333333, side: THREE.DoubleSide}));
                 cookingKitchen.position.y = -height / 2 + 900;
-                cookingKitchen.position.x = 600 / 2;
+                cookingKitchen.position.x = 2116 - 600 / 2 - 200;
                 cookingKitchen.position.z = 600 / 2 + 3904 - 600;
                 addItem(kitchenOrigin, cookingKitchen);
 
-                let washingKitchen = new THREE.Mesh(new THREE.BoxGeometry(560, 50, 560), new THREE.MeshStandardMaterial({color: 0x777777, side: THREE.DoubleSide}));
-                washingKitchen.position.y = -height / 2 + 900;
-                washingKitchen.position.x = 2116 - 600 / 2 - 200;
-                washingKitchen.position.z = 600 / 2 + 3904 - 600;
-                addItem(kitchenOrigin, washingKitchen);
+                let cookingKitchenOwen = new THREE.Mesh(new THREE.BoxGeometry(560, 560, 560), new THREE.MeshStandardMaterial({color: 0x333333, side: THREE.DoubleSide}));
+                cookingKitchenOwen.position.y = -height / 2 + 550;
+                cookingKitchenOwen.position.x = 2116 - 600 / 2 - 200;
+                cookingKitchenOwen.position.z = 600 / 2 + 3904 - 650;
+                addItem(kitchenOrigin, cookingKitchenOwen);
 
                 // let wingKitchen = new THREE.Mesh(new THREE.BoxGeometry(1300, 50, 500), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                 // wingKitchen.position.y = -height / 2 + 900 - 50 / 2;
@@ -645,7 +680,7 @@
                     kitchenTV.position.x = 1600 / 2 + 30 + 300;
                     kitchenTV.position.z = 15;
                     // kitchenTV.rotation.y = Math.PI / 180 * 255.5;
-                    addItem(kitchenOrigin, kitchenTV);
+                    // addItem(kitchenOrigin, kitchenTV);
                 }
                 {
                     let sofaKitchen = new THREE.Mesh(new THREE.BoxGeometry(1800, 500, 700), new THREE.MeshStandardMaterial({color: 0xd4a46e, side: THREE.DoubleSide}));
