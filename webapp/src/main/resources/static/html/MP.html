@@ -761,7 +761,7 @@
                     // kitchenTV.position.x = -150 + 3110 + 1390;
 
                     kitchenTV.position.y = -height / 2 + 1300
-                    kitchenTV.position.x = 1600 / 2;
+                    kitchenTV.position.x = 1600 / 2 + 1200;
                     kitchenTV.position.z = 15;
                     // kitchenTV.rotation.y = Math.PI / 180 * 255.5;
                     addItem(kitchenOrigin, kitchenTV);
@@ -769,8 +769,8 @@
                 {
                     let sofaKitchen = new THREE.Mesh(new THREE.BoxGeometry(1600, 500, 700), new THREE.MeshStandardMaterial({color: 0xd4a46e, side: THREE.DoubleSide}));
                     sofaKitchen.position.y = -height / 2 + 500 / 2;
-                    sofaKitchen.position.x = 1600 / 2 - 150;
-                    sofaKitchen.position.z = 2000;
+                    sofaKitchen.position.x = 1600 / 2 - 150 + 1200;
+                    sofaKitchen.position.z = 1800;
                     sofaKitchen.rotation.y = Math.PI / 180 * 180;
                     addItem(kitchenOrigin, sofaKitchen);
 
@@ -791,10 +791,10 @@
                     } else {
                         let tableKitchen2 = new THREE.Mesh(new THREE.BoxGeometry(700, 50, 1200), new THREE.MeshStandardMaterial({color: 0xCCCCCC, side: THREE.DoubleSide}));
                         // tableKitchen2.rotation.y = Math.PI / 180 * 180;
-                        tableKitchen2.rotation.y = Math.PI / 180 * (255.5 - 90);
+                        // tableKitchen2.rotation.y = Math.PI / 180 * (255.5 - 90);
                         tableKitchen2.position.y = -height / 2 + 900 - 50 / 2;
-                        tableKitchen2.position.x = 2500;
-                        tableKitchen2.position.z = 1800;
+                        tableKitchen2.position.x = 350;
+                        tableKitchen2.position.z = 600;
                         addItem(kitchenOrigin, tableKitchen2);
 
                         let leg1 = new THREE.Mesh(new THREE.BoxGeometry(50, 910, 50), new THREE.MeshStandardMaterial({color: 'brown', side: THREE.DoubleSide}));
@@ -825,13 +825,13 @@
                         chair1.rotation.y = -Math.PI;
                         chair1.position.y = -500 / 2;
                         chair1.position.z = -500;
-                        addItem(tableKitchen2, chair1);
+                        // addItem(tableKitchen2, chair1);
 
                         let chair2 = createChair();
                         chair2.rotation.y = -Math.PI / 2;
                         chair2.position.y = -500 / 2;
                         chair2.position.x = 50 / 2 - 250;
-                        // addItem(tableKitchen2, chair2);
+                        addItem(tableKitchen2, chair2);
 
                         let chair3 = createChair();
                         chair3.position.y = -500 / 2;
@@ -908,7 +908,7 @@
             roomTV.position.z = -4900;
             roomTV.position.x = -420 + 3110 + 1390;
             roomTV.rotation.y = Math.PI / 180 * 280.5;
-            addItem(sleepRoom1, roomTV);
+            // addItem(sleepRoom1, roomTV);
 
             let roomTV_han = new THREE.Mesh(new THREE.BoxGeometry(300, 300, 30), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
             roomTV_han.position.y = -height / 2 + 1300;
@@ -916,7 +916,7 @@
             roomTV_han.position.x = -420 + 3110 + 1390;
             roomTV_han.position.x = -150 + 3110 + 1390;
             roomTV_han.rotation.y = Math.PI / 180 * 255.5;
-            addItem(sleepRoom1, roomTV_han);
+            // addItem(sleepRoom1, roomTV_han);
 
             let roomTV_handler = new THREE.Mesh(new THREE.BoxGeometry(400, 150, 20), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
             // roomTV_handler.position.y = -height / 2 + 1300;
@@ -925,7 +925,7 @@
             roomTV_handler.rotation.y = Math.PI / 180 * 150;
             roomTV_handler.position.z = -Math.sin(roomTV_handler.rotation.y) * 400 / 2;
             roomTV_handler.position.x = Math.cos(roomTV_handler.rotation.y) * 400 / 2;
-            addItem(roomTV, roomTV_handler);
+            // addItem(roomTV, roomTV_handler);
 
             let roomTV_handler2 = new THREE.Mesh(new THREE.BoxGeometry(400, 150, 20), new THREE.MeshStandardMaterial({color: 'black', side: THREE.DoubleSide}));
             // roomTV_handler.position.y = -height / 2 + 1300;
